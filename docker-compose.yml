@@ -9,6 +9,13 @@ services:
     volumes:
       - ./Task1/target/ROOT:/usr/local/tomcat/webapps/ROOT
 
+  task2-tomact:
+    image: tomcat:jdk8
+    ports:
+      - 8082:8080
+    volumes:
+      - ./Task2/target/ROOT:/usr/local/tomcat/webapps/ROOT
+
   oracle:
     image: store/oracle/database-enterprise:12.2.0.1
     ports:
