@@ -1,0 +1,23 @@
+version: "3"
+
+services:
+
+  task1-tomact:
+    image: tomcat:jdk8
+    ports:
+      - 8081:8080
+    volumes:
+      - ./Task1/target/ROOT:/usr/local/tomcat/webapps/ROOT
+
+  oracle:
+    image: store/oracle/database-enterprise:12.2.0.1
+    ports:
+      - 1521:1521
+      - 5500:5500
+    environment:
+      - DB_SID=oracle
+    volumes:
+      - oracle:/ORCL
+
+volumes:
+  oracle: {}
