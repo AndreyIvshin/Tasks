@@ -1,4 +1,4 @@
-# News Portal
+# Tasks
 ### Setup:
 1. Install [ojdbc.jar](ojdbc8.jar) into maven local repository
     
