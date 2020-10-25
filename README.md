@@ -19,7 +19,7 @@
    ```
 
 4. Configure oracle database [user and databases](setup.sql) after oracle database 
-container **`(tasks_oracle_1)`** becomes **`healthy`** 
+container `(tasks_oracle_1)` becomes `healthy`
     
    ```shell script
    docker cp setup.sql tasks_oracle_1:/
