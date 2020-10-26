@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletResponse;
+import java.util.Locale;
+
 @Controller
 public class NewsController {
 
@@ -21,6 +24,11 @@ public class NewsController {
         ModelAndView modelAndView = new ModelAndView(view);
         modelAndView.addObject("news", news);
         return modelAndView;
+    }
+
+    @GetMapping
+    public ModelAndView index(HttpServletResponse response) {
+        return viewAllNews();
     }
 
     @GetMapping("/news/list")

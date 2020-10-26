@@ -12,20 +12,19 @@ import java.util.Properties;
 
 @Configuration
 public class DatabaseConfigurer {
-    @Value("${hibernate.connection.username}") private String username;
-    @Value("${hibernate.connection.password}") private String password;
-    @Value("${hibernate.connection.url}") private String url;
-    @Value("${hibernate.connection.driver_class}") private String driver;
+    @Value("${session.factory.packages.to.scan}") private String scan;
+    @Value("${data.source.username}") private String username;
+    @Value("${data.source.password}") private String password;
+    @Value("${data.source.url}") private String url;
+    @Value("${data.source.driver_class}") private String driver;
     @Value("${hibernate.dialect}") private String dialect;
     @Value("${hibernate.hbm2ddl.auto}") private String auto;
-    @Value("${hibernate.cache.use_second_level_cache}") private String cache;
-    @Value("${hibernate.cache.region.factory_class}") private String ehcache;
     @Value("${hibernate.show_sql}") private String show;
 
     @Bean
     public LocalSessionFactoryBean sessionFactory() {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
-        sessionFactory.setPackagesToScan("com.epam.newsportal.domain.entity");
+        sessionFactory.setPackagesToScan(scan);
         sessionFactory.setDataSource(dataSource());
         sessionFactory.setHibernateProperties(hibernateProperties());
         return sessionFactory;
@@ -46,8 +45,6 @@ public class DatabaseConfigurer {
         Properties hibernateProperties = new Properties();
         hibernateProperties.setProperty(Environment.DIALECT, dialect);
         hibernateProperties.setProperty(Environment.HBM2DDL_AUTO, auto);
-        hibernateProperties.setProperty(Environment.USE_SECOND_LEVEL_CACHE, cache);
-        hibernateProperties.setProperty(Environment.CACHE_REGION_FACTORY, ehcache);
         hibernateProperties.setProperty(Environment.SHOW_SQL, show);
         return hibernateProperties;
     }
