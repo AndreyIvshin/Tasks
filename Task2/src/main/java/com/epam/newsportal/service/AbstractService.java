@@ -1,17 +1,17 @@
 package com.epam.newsportal.service;
 
-import com.epam.newsportal.domain.entity.AbstractEntity;
-import com.epam.newsportal.domain.repository.AbstractRepository;
+import com.epam.newsportal.persistence.entity.AbstractEntity;
+import com.epam.newsportal.persistence.repository.AbstractRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-public abstract class AbstractService<Entity extends AbstractEntity> {
+public abstract class AbstractService<Entity extends AbstractEntity, Repository extends AbstractRepository<Entity>> {
 
     @Autowired
-    protected AbstractRepository<Entity> repository;
+    protected Repository repository;
 
-    public Entity find(String id) {
+    public Entity find(Long id) {
         return repository.find(id);
     }
 

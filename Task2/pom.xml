@@ -16,7 +16,11 @@
 
   <properties>
     <spring.version>5.2.9.RELEASE</spring.version>
+    <crypto.version>5.4.1</crypto.version>
+    <aspect.version>1.9.6</aspect.version>
     <hibernate.version>5.4.22.Final</hibernate.version>
+    <validator.version>6.1.6.Final</validator.version>
+    <modelgen.version>3.0.0-M1</modelgen.version>
     <oracle.version>12.2.0.1</oracle.version>
     <thymeleaf.version>3.0.11.RELEASE</thymeleaf.version>
     <servlet.version>4.0.1</servlet.version>
@@ -67,11 +71,50 @@
       <version>${spring.version}</version>
     </dependency>
 
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-aop</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+
+    <!--Crypto-->
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-crypto</artifactId>
+      <version>${crypto.version}</version>
+    </dependency>
+
+    <!--Aspect-->
+    <dependency>
+      <groupId>org.aspectj</groupId>
+      <artifactId>aspectjrt</artifactId>
+      <version>${aspect.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.aspectj</groupId>
+      <artifactId>aspectjweaver</artifactId>
+      <version>${aspect.version}</version>
+    </dependency>
+
     <!--Hibernate-->
     <dependency>
       <groupId>org.hibernate</groupId>
       <artifactId>hibernate-core</artifactId>
       <version>${hibernate.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-jpamodelgen</artifactId>
+      <version>5.4.22.Final</version>
+    </dependency>
+
+    <!--Validator-->
+    <dependency>
+      <groupId>org.hibernate.validator</groupId>
+      <artifactId>hibernate-validator</artifactId>
+      <version>${validator.version}</version>
     </dependency>
 
     <!--Oracle-->
@@ -111,11 +154,13 @@
     <finalName>ROOT</finalName>
 
     <plugins>
+
       <plugin>
         <artifactId>maven-war-plugin</artifactId>
         <version>3.2.2</version>
       </plugin>
     </plugins>
+
   </build>
 
 </project>

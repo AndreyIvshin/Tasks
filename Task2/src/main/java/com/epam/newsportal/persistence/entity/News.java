@@ -1,4 +1,6 @@
-package com.epam.newsportal.domain.entity;
+package com.epam.newsportal.persistence.entity;
+
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -11,29 +13,32 @@ public class News extends AbstractEntity{
     @Id
     @GeneratedValue
     @Column(name = "news_id")
-    private String id;
+    private Long id;
 
+    @Length(max = 100)
     @Column(name = "news_title")
     private String title;
+
+    @Length(max = 500)
+    @Column(name = "news_brief")
+    private String brief;
+
+    @Length(max = 5000)
+    @Column(name = "news_content")
+    private String content;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "news_date")
     private Date date;
 
-    @Column(name = "news_brief")
-    private String brief;
-
-    @Column(name = "news_content")
-    private String content;
-
     public News() {
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -89,7 +94,7 @@ public class News extends AbstractEntity{
     @Override
     public String toString() {
         return "News{" +
-                "id='" + id + '\'' +
+                "id=" + id +
                 ", title='" + title + '\'' +
                 ", date=" + date +
                 ", brief='" + brief + '\'' +

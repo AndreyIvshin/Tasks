@@ -11,7 +11,8 @@ import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import java.util.Properties;
 
 @Configuration
-public class DatabaseConfigurer {
+public class PersistenceConfiguration {
+
     @Value("${session.factory.packages.to.scan}") private String scan;
     @Value("${data.source.username}") private String username;
     @Value("${data.source.password}") private String password;

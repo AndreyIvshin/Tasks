@@ -1,6 +1,6 @@
-package com.epam.newsportal.domain.repository;
+package com.epam.newsportal.persistence.repository;
 
-import com.epam.newsportal.domain.entity.AbstractEntity;
+import com.epam.newsportal.persistence.entity.AbstractEntity;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -14,17 +14,23 @@ public abstract class AbstractRepository<Entity extends AbstractEntity> {
     @PersistenceContext
     protected EntityManager entityManager;
 
+    protected Class<Entity> entityClass;
+
+    public AbstractRepository() {
+        this.entityClass = getEntityClass();
+    }
+
     protected abstract Class<Entity> getEntityClass();
 
-    public Entity find(String id) {
-        return entityManager.find(getEntityClass(), id);
+    public Entity find(Long id) {
+        return entityManager.find(entityClass, id);
     }
 
     public List<Entity> findAll() {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<Entity> criteriaQuery = criteriaBuilder.createQuery(getEntityClass());
-        Root<Entity> from = criteriaQuery.from(getEntityClass());
-        criteriaQuery.select(from);
+        CriteriaQuery<Entity> criteriaQuery = criteriaBuilder.createQuery(entityClass);
+        Root<Entity> root = criteriaQuery.from(entityClass);
+        criteriaQuery.select(root);
         return entityManager.createQuery(criteriaQuery).getResultList();
     }
 

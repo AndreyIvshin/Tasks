@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:fragment="signIn">
+    <div class="card text-center">
+        <div class="card-header" th:text="#{sign.in}"></div>
+        <div class="card-body">
+            <form th:action="@{/user/sign/in}" th:method="POST">
+                <div class="form-group">
+                    <input type="text" class="form-control text-center" name="username"
+                           th:placeholder="#{user.username}" placeholder="username">
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control text-center" name="password"
+                           th:placeholder="#{user.password}" placeholder="password">
+                </div>
+                <button type="submit" class="btn btn-dark btn-block" th:text="#{submit}"></button>
+            </form>
+        </div>
+    </div>
+</th:block>
+
+<th:block th:fragment="signUp">
+    <div class="card text-center">
+        <div class="card-header" th:text="#{sign.up}"></div>
+        <div class="card-body">
+            <form th:action="@{/user/sign/up}" th:method="POST">
+                <div class="form-group">
+                    <input type="text" class="form-control text-center" name="username"
+                           th:placeholder="#{user.username}" placeholder="username">
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control text-center" name="password"
+                           th:placeholder="#{user.password}" placeholder="password">
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control text-center" name="passwordRepeat"
+                           th:placeholder="#{user.password.repeat}" placeholder="password repeat">
+                </div>
+                <button type="submit" class="btn btn-dark btn-block" th:text="#{submit}"></button>
+            </form>
+        </div>
+    </div>
+</th:block>
+
+</html>
