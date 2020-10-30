@@ -5,8 +5,19 @@
 
 <th:block th:fragment="newsList">
     <div class="card-columns m-5">
+        <th:block
+                th:if="${#session.getAttribute('user') != null ? #strings.equals(#session.getAttribute('user').role, 'ADMIN') : false}">
+            <div class="card bg-dark text-white text-center">
+                <a class="stretched-link" th:href="@{/news/add}"></a>
+                <div class="card-body">
+                    <h1 class="card-title m-5" th:text="#{add.news}">Add news</h1>
+                </div>
+            </div>
+        </th:block>
         <div class="card text-center" th:each="news : ${newsList}">
-            <a class="stretched-link" th:href="@{/news/{id}(id=${news.id})}"></a>
+            <th:block th:if="${#session.getAttribute('user') != null}">
+                <a class="stretched-link" th:href="@{/news/{id}(id=${news.id})}"></a>
+            </th:block>
             <div class="card-body">
                 <h5 class="card-title" th:text="${news.title}">Title</h5>
                 <p class="card-text" th:text="${news.brief}">Brief</p>
@@ -20,7 +31,7 @@
 
 <th:block th:fragment="news">
     <div class="col-6">
-        <div class="card text-center">
+        <div class="card text-center m-5">
             <div class="card-header" th:text="${news.title}">Title</div>
             <div class="card-body">
                 <p class="card-title" th:text="${news.brief}">Brief</p>
@@ -31,8 +42,10 @@
             </div>
             <th:block th:if="${#strings.equals(#session.getAttribute('user').role, 'ADMIN')}">
                 <div class="card-footer d-flex">
-                    <a class="btn btn-dark flex-fill mx-1" th:href="@{/news/edit/{id}(id=${news.id})}" th:text="#{edit}">Edit></a>
-                    <a class="btn btn-danger flex-fill mx-1" th:href="@{/news/delete/{id}(id=${news.id})}" th:text="#{delete}">Delete></a>
+                    <a class="btn btn-dark flex-fill mx-1" th:href="@{/news/edit/{id}(id=${news.id})}"
+                       th:text="#{edit}">Edit></a>
+                    <a class="btn btn-danger flex-fill mx-1" th:href="@{/news/delete/{id}(id=${news.id})}"
+                       th:text="#{delete}">Delete></a>
                 </div>
             </th:block>
         </div>

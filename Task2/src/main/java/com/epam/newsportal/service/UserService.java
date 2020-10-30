@@ -34,7 +34,7 @@ public class UserService extends AbstractService<User , UserRepository> {
         }
     }
 
-    public boolean signUp(String username, String password, String passwordRepeat, Role role) {
+    public boolean signUp(String username, String password, String passwordRepeat) {
         if (repository.findUserByName(username) != null) {
             return false;
         } else {
@@ -42,7 +42,7 @@ public class UserService extends AbstractService<User , UserRepository> {
                 User user = new User();
                 user.setUsername(username);
                 user.setPassword(passwordEncoder.encode(password));
-                user.setRole(role);
+                user.setRole(Role.USER);
                 repository.create(user);
                 login(user);
                 return true;

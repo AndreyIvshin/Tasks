@@ -1,6 +1,5 @@
 package com.epam.newsportal.web;
 
-import com.epam.newsportal.persistence.enumeration.Role;
 import com.epam.newsportal.security.Secured;
 import com.epam.newsportal.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +10,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import static com.epam.newsportal.persistence.enumeration.Role.*;
+
 @Controller
 @Transactional
-@Secured(Role.GUEST)
+@Secured(GUEST)
 public class UserController extends AbstractController {
 
     @Autowired
@@ -35,7 +36,7 @@ public class UserController extends AbstractController {
 
     @PostMapping("/user/sign/up")
     public ModelAndView signUp(@RequestParam String username, @RequestParam String password, @RequestParam String passwordRepeat) {
-        if (userService.signUp(username, password, passwordRepeat, Role.USER)) {
+        if (userService.signUp(username, password, passwordRepeat)) {
             return newsController.index();
         } else {
             return securityController.accessDenied();
@@ -51,7 +52,7 @@ public class UserController extends AbstractController {
         }
     }
 
-    @Secured({Role.USER, Role.ADMIN})
+    @Secured({USER, ADMIN})
     @GetMapping("/user/sign/out")
     public ModelAndView signOut() {
         userService.logout();
