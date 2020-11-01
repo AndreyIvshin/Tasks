@@ -1,7 +1,7 @@
 package com.epam.newsportal.service;
 
-import com.epam.newsportal.persistence.entity.AbstractEntity;
-import com.epam.newsportal.persistence.repository.AbstractRepository;
+import com.epam.newsportal.model.entity.AbstractEntity;
+import com.epam.newsportal.repository.AbstractRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;

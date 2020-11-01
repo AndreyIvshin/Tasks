@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<th:block th:fragment="header">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" type="text/css" th:href="@{/static/css/bootstrap.css}">
+        <link rel="shortcut icon" type="image/x-icon" th:href="@{/static/img/favicon.png}">
+        <title>News Portal</title>
+    </head>
+    <body class="d-flex flex-column p-0 min-vh-100">
+    <div class="navbar navbar-dark bg-dark">
+        <div class="navbar p-0">
+            <a class="navbar btn btn-dark btn-lg font-weight-bold" th:text="#{logo}" th:href="@{/}">News Portal</a>
+            <a sec:authorize="hasAuthority('READ_NEWS')" class="navbar btn btn-dark btn-lg"
+               th:text="#{news}" th:href="@{/news/list}"
+               th:classappend="${#strings.equals(#request.getRequestURI(), '/news/list') ? 'active' : ''}">News</a>
+        </div>
+        <div class="d-flex">
+            <th:block th:replace="fragmentsDropdowns :: dropdownLanguage"/>
+            <th:block sec:authorize="isAnonymous()" th:replace="fragmentsDropdowns :: dropdownSign"/>
+            <th:block sec:authorize="isAuthenticated()" th:replace="fragmentsDropdowns :: dropdownUser"/>
+        </div>
+    </div>
+    <div class="p-0 d-flex flex-fill justify-content-center align-items-center">
+</th:block>
+
+<th:block th:fragment="footer">
+    </div>
+    <div class="navbar navbar-dark bg-dark">
+        <span class="badge badge-light">EPAM 2020</span>
+    </div>
+    <script type="text/javascript" th:src="@{/static/js/jQuery.js}"></script>
+    <script type="text/javascript" th:src="@{/static/js/popper.js}"></script>
+    <script type="text/javascript" th:src="@{/static/js/bootstrap.js}"></script>
+    </body>
+</th:block>
+
+</html>

@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!--/*@thymesVar id="news" type="com.epam.newsportal.model.entity.News"*/-->
+<!--/*@thymesVar id="user" type="com.epam.newsportal.model.entity.User"*/-->
+
+
+<th:block th:fragment="signIn">
+    <div class="col-3">
+        <div class="card text-center">
+            <div class="card-header" th:text="#{sign.in}">Sign in</div>
+            <div class="card-body">
+                <form th:action="@{/sign/in/process}" th:method="POST">
+                    <div class="form-group">
+                        <input type="text" class="form-control text-center" name="username" placeholder="username"
+                               th:placeholder="#{user.username}" th:value="${user} != null ? ${user.username} : ''">
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control text-center" name="password" placeholder="password"
+                               th:placeholder="#{user.password}">
+                    </div>
+                    <button type="submit" class="btn btn-dark btn-block" th:text="#{submit}">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</th:block>
+
+<th:block th:fragment="signUp">
+    <div class="col-3">
+        <div class="card text-center">
+            <div class="card-header" th:text="#{sign.up}">Sign up</div>
+            <div class="card-body">
+                <form th:action="@{/sign/up/process}" th:method="POST">
+                    <div class="form-group">
+                        <input type="text" class="form-control text-center" name="username" placeholder="username"
+                               th:placeholder="#{user.username}" th:value="${user} != null ? ${user.username} : ''">
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control text-center" name="password" placeholder="password"
+                               th:placeholder="#{user.password}">
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control text-center" name="passwordRepeat" placeholder="password repeat"
+                               th:placeholder="#{user.password.repeat}">
+                    </div>
+                    <button type="submit" class="btn btn-dark btn-block" th:text="#{submit}">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</th:block>
+
+<th:block th:fragment="addNews">
+    <div class="col-6">
+        <div class="card text-center">
+            <div class="card-header" th:text="#{add.news}">Add news</div>
+            <div class="card-body">
+                <form th:action="@{/news/add/process}" th:method="POST">
+                    <div class="form-group">
+                        <input type="text" class="form-control text-center" name="title" placeholder="title"
+                               th:placeholder="#{news.title}" th:value="${news != null ? news.title : ''}">
+                    </div>
+                    <div class="form-group">
+                    <textarea type="password" class="form-control text-center" name="brief" placeholder="brief"
+                              th:placeholder="#{news.brief}" th:text="${news != null ? news.brief : ''}"></textarea>
+                    </div>
+                    <div class="form-group">
+                    <textarea type="password" class="form-control text-center" name="content" placeholder="content"
+                              th:placeholder="#{news.content}" th:text="${news != null ? news.content : ''}"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-dark btn-block" th:text="#{submit}">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</th:block>
+
+<th:block th:fragment="editNews">
+    <div class="col-6">
+        <div class="card text-center">
+            <div class="card-header" th:text="#{edit.news}">Edit News</div>
+            <div class="card-body">
+                <form th:action="@{/news/edit/process}" th:method="POST">
+                    <input type="hidden" name="id" th:value="${user.id}">
+                    <div class="form-group">
+                        <input type="text" class="form-control text-center" name="title" placeholder="title"
+                               th:placeholder="#{news.title}" th:value="${news != null ? news.title : ''}">
+                    </div>
+                    <div class="form-group">
+                    <textarea type="password" class="form-control text-center" name="brief" placeholder="brief"
+                              th:placeholder="#{news.brief}" th:text="${news != null ? news.brief : ''}"></textarea>
+                    </div>
+                    <div class="form-group">
+                    <textarea type="password" class="form-control text-center" name="content" placeholder="content"
+                              th:placeholder="#{news.content}" th:text="${news != null ? news.content : ''}"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-dark btn-block" th:text="#{submit}"></button>
+                </form>
+            </div>
+        </div>
+    </div>
+</th:block>
+
+</html>

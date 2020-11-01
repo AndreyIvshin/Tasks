@@ -1,7 +1,7 @@
 package com.epam.newsportal.service;
 
-import com.epam.newsportal.persistence.entity.News;
-import com.epam.newsportal.persistence.repository.NewsRepository;
+import com.epam.newsportal.model.entity.News;
+import com.epam.newsportal.repository.NewsRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
