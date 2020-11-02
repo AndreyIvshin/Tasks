@@ -17,7 +17,7 @@
                 <h5 class="card-title" th:text="${news.title}">Title</h5>
                 <p class="card-text" th:text="${news.brief}">Brief</p>
                 <p class="card-text">
-                    <small class="text-muted" th:text="${news.date}">Date</small>
+                    <small class="text-muted" th:text="${{news.date}}">Date</small>
                 </p>
             </div>
         </div>
@@ -39,7 +39,7 @@
                 <a class="btn btn-dark flex-fill mx-1" th:href="@{/news/edit/{id}(id=${news.id})}" th:text="#{edit}">Edit></a>
                 <form th:action="@{/news/delete/process}" th:method="POST" class="d-flex flex-fill mx-1">
                     <input type="hidden" name="id" th:value="${news.id}">
-                    <button type="submit" class="btn btn-danger flex-fill" th:text="#{delete}">Delete></button>
+                    <button type="submit" class="btn btn-danger flex-fill" th:text="#{delete}">Delete</button>
                 </form>
             </div>
         </div>

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -28,14 +29,20 @@ public class NewsController {
     }
 
     @GetMapping("/news/add")
-    public String addNews() {
+    public String addNews(Model model) {
+        model.addAttribute("news", new News());
         return "newsAdd";
     }
 
     @PostMapping("/news/add/process")
-    public String addNewsProcess(@ModelAttribute News news) {
-        newsService.create(news);
-        return "redirect:/news/show/" + news.getId();
+    public String addNewsProcess(@ModelAttribute News news, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("news", news);
+            return "newsAdd";
+        } else {
+            newsService.create(news);
+            return "redirect:/news/show/" + news.getId();
+        }
     }
 
     @GetMapping("/news/edit/{id}")
@@ -45,9 +52,14 @@ public class NewsController {
     }
 
     @PostMapping("/news/edit/process")
-    public String editNewsProcess(@ModelAttribute News news) {
-        newsService.update(news);
-        return "redirect:/news/show/" + news.getId();
+    public String editNewsProcess(@ModelAttribute News news, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("news", news);
+            return "newsEdit";
+        } else {
+            newsService.update(news);
+            return "redirect:/news/show/" + news.getId();
+        }
     }
 
     @PostMapping("/news/delete/process")

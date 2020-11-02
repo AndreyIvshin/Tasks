@@ -1,0 +1,35 @@
+package com.epam.newsportal.util;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.format.Formatter;
+import org.springframework.stereotype.Component;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
+@Component
+public class DateFormatter implements Formatter<Date> {
+
+    @Autowired
+    private ReloadableResourceBundleMessageSource messageSource;
+
+    @Override
+    public Date parse(String s, Locale locale) throws ParseException {
+        return getDateFormatter(locale).parse(s);
+    }
+
+    @Override
+    public String print(Date date, Locale locale) {
+        return getDateFormatter(locale).format(date);
+    }
+
+    private DateFormat getDateFormatter(Locale locale) {
+        DateFormat dateFormat = new SimpleDateFormat(messageSource.getMessage("date.format", null, locale), locale);
+        dateFormat.setLenient(false);
+        return dateFormat;
+    }
+}

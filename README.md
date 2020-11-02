@@ -18,8 +18,8 @@
    docker-compose up -d
    ```
 
-4. Configure oracle database [user and databases](setup.sql) after oracle database 
-container `(tasks_oracle_1)` becomes `healthy`
+4. To configure oracle database [user and databases](setup.sql) after oracle database 
+container `(tasks_oracle_1)` becomes `healthy` run [setup.sh](setup.sh) script or run following commands
     
    ```shell script
    docker cp setup.sql tasks_oracle_1:/
