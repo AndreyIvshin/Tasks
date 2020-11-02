@@ -1,0 +1,29 @@
+package com.epam.newsportal.validation;
+
+import com.epam.newsportal.model.entity.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.Errors;
+import org.springframework.validation.Validator;
+
+@Component
+@Transactional
+public class PasswordRepeatValidator implements Validator {
+
+    @Autowired
+    private Rejecter rejecter;
+
+    @Override
+    public boolean supports(Class<?> aClass) {
+        return User.class.equals(aClass);
+    }
+
+    @Override
+    public void validate(Object o, Errors errors) {
+        User user = ((User) o);
+        if (!user.getPassword().equals(user.getPasswordRepeat())) {
+            rejecter.reject(errors, "passwordRepeat", "", "validation.password.repeat", new Object[0]);
+        }
+    }
+}

@@ -1,5 +1,6 @@
 package com.epam.newsportal.configuration;
 
+import com.epam.newsportal.util.DateFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
@@ -8,6 +9,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.format.FormatterRegistry;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
@@ -26,7 +28,6 @@ import java.util.Locale;
 @PropertySource({"classpath:application.properties", "classpath:messages.properties"})
 public class WebConfiguration implements WebMvcConfigurer {
 
-    @Autowired private ApplicationContext applicationContext;
     @Value("${template.mode}") private String mode;
     @Value("${template.cache}") private String cache;
     @Value("${template.prefix}") private String prefix;
@@ -37,7 +38,11 @@ public class WebConfiguration implements WebMvcConfigurer {
     @Value("${locale.parameter}") private String parameter;
     @Value("${template.static.location}") private String location;
     @Value("${template.static.pattern}") private String pattern;
-    @Value("${default.error.view}") private String error;
+
+    @Autowired
+    private ApplicationContext applicationContext;
+    @Autowired
+    private DateFormatter dateFormatter;
 
     @Override
     public void configureViewResolvers(ViewResolverRegistry registry) {
@@ -52,6 +57,11 @@ public class WebConfiguration implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler(pattern).addResourceLocations(location);
+    }
+
+    @Override
+    public void addFormatters(FormatterRegistry registry) {
+        registry.addFormatter(dateFormatter);
     }
 
     @Bean
@@ -84,9 +94,9 @@ public class WebConfiguration implements WebMvcConfigurer {
 
     @Bean
     public ReloadableResourceBundleMessageSource reloadableResourceBundleMessageSource() {
-        ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
-        messageSource.setBasename(source);
-        return messageSource;
+        ReloadableResourceBundleMessageSource reloadableResourceBundleMessageSource = new ReloadableResourceBundleMessageSource();
+        reloadableResourceBundleMessageSource.setBasename(source);
+        return reloadableResourceBundleMessageSource;
     }
 
     @Bean
@@ -97,7 +107,7 @@ public class WebConfiguration implements WebMvcConfigurer {
     @Bean
     public SessionLocaleResolver localeResolver() {
         SessionLocaleResolver localeResolver = new SessionLocaleResolver();
-        localeResolver.setDefaultLocale(Locale.forLanguageTag(locale));
+        localeResolver.setDefaultLocale(new Locale(locale));
         localeResolver.setLocaleAttributeName(parameter);
         return localeResolver;
     }

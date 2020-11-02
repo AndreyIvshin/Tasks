@@ -5,6 +5,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.Objects;
 
@@ -18,6 +19,7 @@ public class User extends AbstractEntity implements UserDetails {
     @Column(name = "user_id")
     private Long id;
 
+    @Size(min = 2, max = 40)
     @Column(name = "user_username")
     private String username;
 

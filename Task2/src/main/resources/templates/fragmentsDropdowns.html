@@ -9,12 +9,12 @@
         </button>
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownLanguage">
             <a class="dropdown-item text-center" th:text="#{language.english}"
-               th:href="@{__${#request.getRequestURI()}__(locale='en')}"
+               th:href="@{/(locale='en')}"
                th:classappend="${#strings.equals(session.get('locale'), 'en') ? 'active' : ''}">
                 English
             </a>
             <a class="dropdown-item text-center" th:text="#{language.russian}"
-               th:href="@{__${#request.getRequestURI()}__(locale='ru')}"
+               th:href="@{/(locale='ru')}"
                th:classappend="${#strings.equals(session.get('locale'), 'ru') ? 'active' : ''}">
                 Russian
             </a>

@@ -1,8 +1,7 @@
 package com.epam.newsportal.model.entity;
 
-import org.hibernate.validator.constraints.Length;
-
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.Objects;
 
@@ -16,15 +15,15 @@ public class News extends AbstractEntity{
     @Column(name = "news_id")
     private Long id;
 
-    @Length(max = 100)
+    @Size(min = 2, max = 100)
     @Column(name = "news_title")
     private String title;
 
-    @Length(max = 500)
+    @Size(min = 2, max = 500)
     @Column(name = "news_brief")
     private String brief;
 
-    @Length(max = 5000)
+    @Size(min = 2, max = 5000)
     @Column(name = "news_content")
     private String content;
 

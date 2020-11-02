@@ -23,7 +23,9 @@
         <modelgen.version>3.0.0-M1</modelgen.version>
         <oracle.version>12.2.0.1</oracle.version>
         <thymeleaf.version>3.0.11.RELEASE</thymeleaf.version>
+        <thymeleaf.extras.version>3.0.4.RELEASE</thymeleaf.extras.version>
         <servlet.version>4.0.1</servlet.version>
+        <junit.version>4.11</junit.version>
     </properties>
 
     <dependencyManagement>
@@ -137,7 +139,7 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-jpamodelgen</artifactId>
-            <version>5.4.22.Final</version>
+            <version>${hibernate.version}</version>
         </dependency>
 
         <!--Validator-->
@@ -168,7 +170,12 @@
         <dependency>
             <groupId>org.thymeleaf.extras</groupId>
             <artifactId>thymeleaf-extras-springsecurity5</artifactId>
-            <version>3.0.4.RELEASE</version>
+            <version>${thymeleaf.extras.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.thymeleaf.extras</groupId>
+            <artifactId>thymeleaf-extras-java8time</artifactId>
+            <version>${thymeleaf.extras.version}</version>
         </dependency>
 
         <!--Servlet-->
@@ -183,7 +190,7 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.11</version>
+            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
 
