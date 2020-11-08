@@ -1,13 +1,11 @@
 package com.epam.newsportal.configuration;
 
 import com.epam.newsportal.util.DateFormatter;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.annotation.*;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -23,10 +21,11 @@ import java.util.Locale;
 
 @Configuration
 @EnableWebMvc
+@EnableAspectJAutoProxy
 @EnableTransactionManagement(proxyTargetClass = true)
 @ComponentScan("com.epam.newsportal")
 @PropertySource({"classpath:application.properties", "classpath:messages.properties"})
-public class WebConfiguration implements WebMvcConfigurer {
+public class WebConfiguration implements WebMvcConfigurer, ApplicationContextAware {
 
     @Value("${template.mode}") private String mode;
     @Value("${template.cache}") private String cache;
@@ -39,10 +38,12 @@ public class WebConfiguration implements WebMvcConfigurer {
     @Value("${template.static.location}") private String location;
     @Value("${template.static.pattern}") private String pattern;
 
-    @Autowired
     private ApplicationContext applicationContext;
-    @Autowired
-    private DateFormatter dateFormatter;
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.applicationContext = applicationContext;
+    }
 
     @Override
     public void configureViewResolvers(ViewResolverRegistry registry) {
@@ -61,7 +62,7 @@ public class WebConfiguration implements WebMvcConfigurer {
 
     @Override
     public void addFormatters(FormatterRegistry registry) {
-        registry.addFormatter(dateFormatter);
+        registry.addFormatter(dateFormatter());
     }
 
     @Bean
@@ -117,6 +118,11 @@ public class WebConfiguration implements WebMvcConfigurer {
         LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
         localeChangeInterceptor.setParamName(parameter);
         return localeChangeInterceptor;
+    }
+
+    @Bean
+    public DateFormatter dateFormatter() {
+        return new DateFormatter(reloadableResourceBundleMessageSource(), "date.format");
     }
 }
 

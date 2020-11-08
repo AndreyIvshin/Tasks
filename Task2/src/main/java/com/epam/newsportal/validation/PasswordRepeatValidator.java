@@ -1,6 +1,8 @@
 package com.epam.newsportal.validation;
 
 import com.epam.newsportal.model.entity.User;
+import com.epam.newsportal.model.transfer.UserTransfer;
+import com.epam.newsportal.util.Rejecter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,13 +18,13 @@ public class PasswordRepeatValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> aClass) {
-        return User.class.equals(aClass);
+        return UserTransfer.class.equals(aClass);
     }
 
     @Override
     public void validate(Object o, Errors errors) {
-        User user = ((User) o);
-        if (!user.getPassword().equals(user.getPasswordRepeat())) {
+        UserTransfer userTransfer = ((UserTransfer) o);
+        if (!userTransfer.getPassword().equals(userTransfer.getPasswordRepeat())) {
             rejecter.reject(errors, "passwordRepeat", "", "validation.password.repeat", new Object[0]);
         }
     }

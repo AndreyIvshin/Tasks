@@ -11,11 +11,15 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-@Component
 public class DateFormatter implements Formatter<Date> {
 
-    @Autowired
-    private ReloadableResourceBundleMessageSource messageSource;
+    private final ReloadableResourceBundleMessageSource messageSource;
+    private final String format;
+
+    public DateFormatter(ReloadableResourceBundleMessageSource messageSource, String format) {
+        this.messageSource = messageSource;
+        this.format = format;
+    }
 
     @Override
     public Date parse(String s, Locale locale) throws ParseException {
@@ -28,7 +32,7 @@ public class DateFormatter implements Formatter<Date> {
     }
 
     private DateFormat getDateFormatter(Locale locale) {
-        DateFormat dateFormat = new SimpleDateFormat(messageSource.getMessage("date.format", null, locale), locale);
+        DateFormat dateFormat = new SimpleDateFormat(messageSource.getMessage(format, null, locale), locale);
         dateFormat.setLenient(false);
         return dateFormat;
     }

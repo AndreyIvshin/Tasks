@@ -1,9 +1,11 @@
 package com.epam.newsportal.configuration;
 
-import org.hibernate.cfg.Environment;
+import org.flywaydb.core.Flyway;
+import org.flywaydb.core.api.configuration.ClassicConfiguration;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
@@ -11,6 +13,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.sql.DataSource;
 import java.util.Properties;
+
+import static org.hibernate.cfg.Environment.*;
 
 @Configuration
 public class PersistenceConfiguration {
@@ -25,6 +29,7 @@ public class PersistenceConfiguration {
     @Value("${hibernate.show_sql}") private String show;
 
     @Bean
+    @DependsOn("flyway")
     public LocalSessionFactoryBean sessionFactory() {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setPackagesToScan(scan);
@@ -46,9 +51,9 @@ public class PersistenceConfiguration {
     @Bean
     public Properties hibernateProperties() {
         Properties hibernateProperties = new Properties();
-        hibernateProperties.setProperty(Environment.DIALECT, dialect);
-        hibernateProperties.setProperty(Environment.HBM2DDL_AUTO, auto);
-        hibernateProperties.setProperty(Environment.SHOW_SQL, show);
+        hibernateProperties.setProperty(DIALECT, dialect);
+        hibernateProperties.setProperty(HBM2DDL_AUTO, auto);
+        hibernateProperties.setProperty(SHOW_SQL, show);
         return hibernateProperties;
     }
 
@@ -60,7 +65,16 @@ public class PersistenceConfiguration {
     }
 
     @Bean
-    BCryptPasswordEncoder passwordEncoder() {
+    public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public Flyway flyway() {
+        ClassicConfiguration configuration = new ClassicConfiguration();
+        configuration.setDataSource(dataSource());
+        Flyway flyway = new Flyway(configuration);
+        flyway.migrate();
+        return flyway;
     }
 }

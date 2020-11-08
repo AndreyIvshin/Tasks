@@ -1,6 +1,7 @@
 package com.epam.newsportal.controller;
 
 import com.epam.newsportal.model.entity.News;
+import com.epam.newsportal.model.transfer.NewsTransfer;
 import com.epam.newsportal.service.NewsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,18 +31,18 @@ public class NewsController {
 
     @GetMapping("/news/add")
     public String addNews(Model model) {
-        model.addAttribute("news", new News());
+        model.addAttribute("news", new NewsTransfer());
         return "newsAdd";
     }
 
     @PostMapping("/news/add/process")
-    public String addNewsProcess(@ModelAttribute News news, BindingResult bindingResult, Model model) {
+    public String addNewsProcess(@ModelAttribute NewsTransfer newsTransfer, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            model.addAttribute("news", news);
+            model.addAttribute("news", newsTransfer);
             return "newsAdd";
         } else {
-            newsService.create(news);
-            return "redirect:/news/show/" + news.getId();
+            newsService.create(newsTransfer);
+            return "redirect:/news/show/" + newsTransfer.getId();
         }
     }
 
@@ -52,13 +53,13 @@ public class NewsController {
     }
 
     @PostMapping("/news/edit/process")
-    public String editNewsProcess(@ModelAttribute News news, BindingResult bindingResult, Model model) {
+    public String editNewsProcess(@ModelAttribute NewsTransfer newsTransfer, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            model.addAttribute("news", news);
+            model.addAttribute("news", newsTransfer);
             return "newsEdit";
         } else {
-            newsService.update(news);
-            return "redirect:/news/show/" + news.getId();
+            newsService.update(newsTransfer);
+            return "redirect:/news/show/" + newsTransfer.getId();
         }
     }
 

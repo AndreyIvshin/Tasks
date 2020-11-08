@@ -19,13 +19,7 @@
    ```
 
 4. To configure oracle database [user and databases](setup.sql) after oracle database 
-container `(tasks_oracle_1)` becomes `healthy` run [setup.sh](setup.sh) script or run following commands
-    
-   ```shell script
-   docker cp setup.sql tasks_oracle_1:/
-   docker exec tasks_oracle_1 bash -c "source /home/oracle/.bashrc; sqlplus sys/Oradoc_db1 as sysdba @setup"
-   ```
-
+container `(tasks_oracle_1)` becomes `healthy` run [setup.sh](setup.sh) script
 ### Remove:
 1. Remove docker containers networks and volumes
 

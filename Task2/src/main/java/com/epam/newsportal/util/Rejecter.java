@@ -1,4 +1,4 @@
-package com.epam.newsportal.validation;
+package com.epam.newsportal.util;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

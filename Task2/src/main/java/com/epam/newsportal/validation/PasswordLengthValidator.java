@@ -1,6 +1,8 @@
 package com.epam.newsportal.validation;
 
 import com.epam.newsportal.model.entity.User;
+import com.epam.newsportal.model.transfer.UserTransfer;
+import com.epam.newsportal.util.Rejecter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,18 +18,18 @@ public class PasswordLengthValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> aClass) {
-        return User.class.equals(aClass);
+        return UserTransfer.class.equals(aClass);
     }
 
     @Override
     public void validate(Object o, Errors errors) {
-        User user = ((User) o);
-        int min = 6;
+        UserTransfer userTransfer = ((UserTransfer) o);
+        int min = 4;
         int max = 40;
-        if (user.getPassword().length() < min || user.getPassword().length() > max) {
+        if (userTransfer.getPassword().length() < min || userTransfer.getPassword().length() > max) {
             rejecter.reject(errors, "password", "", "validation.password.length", new Object[]{min,max});
         }
-        if (user.getPasswordRepeat().length() < min || user.getPassword().length() > max) {
+        if (userTransfer.getPasswordRepeat().length() < min || userTransfer.getPassword().length() > max) {
             rejecter.reject(errors, "passwordRepeat", "", "validation.password.length", new Object[]{min,max});
 
         }

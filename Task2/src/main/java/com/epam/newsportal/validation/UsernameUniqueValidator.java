@@ -1,7 +1,9 @@
 package com.epam.newsportal.validation;
 
 import com.epam.newsportal.model.entity.User;
+import com.epam.newsportal.model.transfer.UserTransfer;
 import com.epam.newsportal.service.UserService;
+import com.epam.newsportal.util.Rejecter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,13 +21,13 @@ public class UsernameUniqueValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> aClass) {
-        return User.class.equals(aClass);
+        return UserTransfer.class.equals(aClass);
     }
 
     @Override
     public void validate(Object o, Errors errors) {
-        User newUser = ((User) o);
-        User oldUser = (User) userService.loadUserByUsername(newUser.getUsername());
+        UserTransfer newUser = ((UserTransfer) o);
+        UserTransfer oldUser = (UserTransfer) userService.loadUserByUsername(newUser.getUsername());
         if (oldUser != null) {
             rejecter.reject(errors, "username", "", "validation.user.exists", new Object[0]);
         }
