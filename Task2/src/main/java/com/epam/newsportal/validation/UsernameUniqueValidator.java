@@ -13,6 +13,9 @@ import org.springframework.validation.Validator;
 @Transactional
 public class UsernameUniqueValidator implements Validator {
 
+    private static final String MESSAGE = "validation.user.exists";
+    private static final String USERNAME = "username";
+
     @Autowired
     private Rejecter rejecter;
     @Autowired
@@ -28,7 +31,7 @@ public class UsernameUniqueValidator implements Validator {
         User newUser = ((User) o);
         User oldUser = (User) userService.loadUserByUsername(newUser.getUsername());
         if (oldUser != null) {
-            rejecter.reject(errors, "username", "", "validation.user.exists", new Object[0]);
+            rejecter.reject(errors, USERNAME, "", MESSAGE, new Object[0]);
         }
     }
 }

@@ -10,17 +10,28 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import static com.epam.docker.PropertiesHolder.*;
+
 @WebServlet("/connection")
 public class ConnectionController extends HttpServlet {
+
+    private static final PropertiesHolder propertiesHolder = getInstance();
+
+    public static final String H1 = "<h1>";
+    public static final String SUCCESS_MESSAGE = "Connected";
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            Class.forName("oracle.jdbc.driver.OracleDriver");
-            Connection connection = DriverManager.getConnection("jdbc:oracle:thin:@192.168.99.100:1521:oracle", "root", "1234");
-            resp.getWriter().write("<h1>Connected</h1>");
+            Class.forName(propertiesHolder.getProperty(DRIVER));
+            try (Connection connection = DriverManager.getConnection(
+                    propertiesHolder.getProperty(URL),
+                    propertiesHolder.getProperty(USERNAME),
+                    propertiesHolder.getProperty(PASSWORD))) {
+                    resp.getWriter().write(H1 + SUCCESS_MESSAGE + H1);
+            }
         } catch (SQLException | IOException | ClassNotFoundException e) {
-            resp.getWriter().write("<h1>" + e.getMessage() + "</h1>");
+            resp.getWriter().write(H1 + e.getMessage() + H1);
             e.printStackTrace();
         }
     }

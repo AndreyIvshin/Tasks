@@ -25,10 +25,8 @@ public class UserService extends AbstractService<User, UserRepository> implement
 
     @Override
     public void create(User entity) {
-        if (entity.getPassword().equals(entity.getPasswordRepeat())) {
-            entity.setPassword(passwordEncoder.encode(entity.getPassword()));
-            entity.setRole(Role.USER);
-            super.create(entity);
-        }
+        entity.setPassword(passwordEncoder.encode(entity.getPassword()));
+        entity.setRole(Role.USER);
+        super.create(entity);
     }
 }

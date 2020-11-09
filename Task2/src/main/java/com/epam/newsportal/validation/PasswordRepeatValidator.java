@@ -12,6 +12,9 @@ import org.springframework.validation.Validator;
 @Transactional
 public class PasswordRepeatValidator implements Validator {
 
+    private static final String MESSAGE = "validation.password.repeat";
+    private static final String PASSWORD_REPEAT = "passwordRepeat";
+
     @Autowired
     private Rejecter rejecter;
 
@@ -24,7 +27,7 @@ public class PasswordRepeatValidator implements Validator {
     public void validate(Object o, Errors errors) {
         User userTransfer = ((User) o);
         if (!userTransfer.getPassword().equals(userTransfer.getPasswordRepeat())) {
-            rejecter.reject(errors, "passwordRepeat", "", "validation.password.repeat", new Object[0]);
+            rejecter.reject(errors, PASSWORD_REPEAT, "", MESSAGE, new Object[0]);
         }
     }
 }

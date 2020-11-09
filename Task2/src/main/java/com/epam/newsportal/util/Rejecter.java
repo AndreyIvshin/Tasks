@@ -11,14 +11,14 @@ import java.util.Locale;
 
 @Component
 public class Rejecter {
+
     @Autowired
     private ReloadableResourceBundleMessageSource messageSource;
     @Autowired
     private HttpSession httpSession;
-    @Value("{locale.parameter}")
-    private String localeParameter;
-    @Value("{locale.default}")
-    private String localeDefault;
+
+    @Value("${locale.parameter}") private String localeParameter;
+    @Value("${locale.default}") private String localeDefault;
 
     public void reject(Errors errors, String field, String code, String message, Object[] parameters) {
         errors.rejectValue(field, code, messageSource.getMessage(message, parameters, (
