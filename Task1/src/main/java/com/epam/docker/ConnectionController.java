@@ -10,12 +10,10 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-import static com.epam.docker.PropertiesHolder.*;
-
 @WebServlet("/connection")
 public class ConnectionController extends HttpServlet {
 
-    private static final PropertiesHolder propertiesHolder = getInstance();
+    private static final PropertiesHolder propertiesHolder = PropertiesHolder.getInstance();
 
     public static final String H1 = "<h1>";
     public static final String SUCCESS_MESSAGE = "Connected";
@@ -23,11 +21,11 @@ public class ConnectionController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            Class.forName(propertiesHolder.getProperty(DRIVER));
+            Class.forName(propertiesHolder.getProperty(PropertiesHolder.DRIVER));
             try (Connection connection = DriverManager.getConnection(
-                    propertiesHolder.getProperty(URL),
-                    propertiesHolder.getProperty(USERNAME),
-                    propertiesHolder.getProperty(PASSWORD))) {
+                    propertiesHolder.getProperty(PropertiesHolder.URL),
+                    propertiesHolder.getProperty(PropertiesHolder.USERNAME),
+                    propertiesHolder.getProperty(PropertiesHolder.PASSWORD))) {
                     resp.getWriter().write(H1 + SUCCESS_MESSAGE + H1);
             }
         } catch (SQLException | IOException | ClassNotFoundException e) {

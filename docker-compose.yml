@@ -2,29 +2,38 @@ version: "3"
 
 services:
 
-  task1-tomcat:
-    image: tomcat:jdk8
-    ports:
-      - 8081:8080
-    volumes:
-      - ./Task1/target/ROOT:/usr/local/tomcat/webapps/ROOT
+#  task1-tomcat:
+#    image: tomcat:jdk8
+#    ports:
+#      - 8081:8080
+#    volumes:
+#      - ./Task1/target/ROOT:/usr/local/tomcat/webapps/ROOT
+#
+#  task2-tomcat:
+#    image: tomcat:jdk8
+#    ports:
+#      - 8082:8080
+#    volumes:
+#      - ./Task2/target/ROOT:/usr/local/tomcat/webapps/ROOT
+#
+#  oracle:
+#    image: store/oracle/database-enterprise:12.2.0.1
+#    ports:
+#      - 1521:1521
+#      - 5500:5500
+#    environment:
+#      - DB_SID=oracle
+#    volumes:
+#      - oracle:/ORCL
 
-  task2-tomcat:
-    image: tomcat:jdk8
-    ports:
-      - 8082:8080
-    volumes:
-      - ./Task2/target/ROOT:/usr/local/tomcat/webapps/ROOT
-
-  oracle:
-    image: store/oracle/database-enterprise:12.2.0.1
-    ports:
-      - 1521:1521
-      - 5500:5500
+  postgres:
+    image: postgres:13
     environment:
-      - DB_SID=oracle
-    volumes:
-      - oracle:/ORCL
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=1234
+      - POSTGRES_DB=postres
+    ports:
+      - 5432:5432
 
-volumes:
-  oracle: {}
+#volumes:
+#  oracle: {}
