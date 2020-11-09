@@ -2,19 +2,19 @@ version: "3"
 
 services:
 
-#  task1-tomcat:
-#    image: tomcat:jdk8
-#    ports:
-#      - 8081:8080
-#    volumes:
-#      - ./Task1/target/ROOT:/usr/local/tomcat/webapps/ROOT
-#
-#  task2-tomcat:
-#    image: tomcat:jdk8
-#    ports:
-#      - 8082:8080
-#    volumes:
-#      - ./Task2/target/ROOT:/usr/local/tomcat/webapps/ROOT
+  task1-tomcat:
+    image: tomcat:jdk8
+    ports:
+      - 8081:8080
+    volumes:
+      - ./Task1/target/ROOT:/usr/local/tomcat/webapps/ROOT
+
+  task2-tomcat:
+    image: tomcat:jdk8
+    ports:
+      - 8082:8080
+    volumes:
+      - ./Task2/target/ROOT:/usr/local/tomcat/webapps/ROOT
 
   oracle:
     image: store/oracle/database-enterprise:12.2.0.1
