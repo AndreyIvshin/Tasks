@@ -1,7 +1,6 @@
 package com.epam.newsportal.controller;
 
 import com.epam.newsportal.model.entity.User;
-import com.epam.newsportal.model.transfer.UserTransfer;
 import com.epam.newsportal.service.UserService;
 import com.epam.newsportal.validation.PasswordLengthValidator;
 import com.epam.newsportal.validation.PasswordRepeatValidator;
@@ -51,15 +50,15 @@ public class UserController {
     }
 
     @PostMapping("/sign/up/process")
-    public String signUpProcess(@ModelAttribute @Valid UserTransfer userTransfer, BindingResult bindingResult, Model model) {
-        passwordRepeatValidator.validate(userTransfer, bindingResult);
-        passwordLengthValidator.validate(userTransfer, bindingResult);
-        usernameUniqueValidator.validate(userTransfer, bindingResult);
+    public String signUpProcess(@ModelAttribute @Valid User user, BindingResult bindingResult, Model model) {
+        passwordRepeatValidator.validate(user, bindingResult);
+        passwordLengthValidator.validate(user, bindingResult);
+        usernameUniqueValidator.validate(user, bindingResult);
         if (bindingResult.hasErrors()) {
-            model.addAttribute("user", userTransfer);
+            model.addAttribute("user", user);
             return "signUp";
         } else {
-            userService.create(userTransfer);
+            userService.create(user);
             return "redirect:/sign/in";
         }
     }

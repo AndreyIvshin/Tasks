@@ -1,9 +1,7 @@
 package com.epam.newsportal.service;
 
-import com.epam.newsportal.mapper.UserMapper;
 import com.epam.newsportal.model.entity.User;
 import com.epam.newsportal.model.enumeration.Role;
-import com.epam.newsportal.model.transfer.UserTransfer;
 import com.epam.newsportal.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class UserService extends AbstractService<User, UserTransfer, UserRepository, UserMapper> implements UserDetailsService {
+public class UserService extends AbstractService<User, UserRepository> implements UserDetailsService {
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
@@ -26,11 +24,11 @@ public class UserService extends AbstractService<User, UserTransfer, UserReposit
     }
 
     @Override
-    public void create(UserTransfer transfer) {
-        if (transfer.getPassword().equals(transfer.getPasswordRepeat())) {
-            transfer.setPassword(passwordEncoder.encode(transfer.getPassword()));
-            transfer.setRole(Role.USER);
-            super.create(transfer);
+    public void create(User entity) {
+        if (entity.getPassword().equals(entity.getPasswordRepeat())) {
+            entity.setPassword(passwordEncoder.encode(entity.getPassword()));
+            entity.setRole(Role.USER);
+            super.create(entity);
         }
     }
 }
