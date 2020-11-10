@@ -10,57 +10,57 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("users")
 public class UserController {
 
     @Autowired
     private UserService userService;
 
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<List<User>> getUsers() {
         return ResponseEntity.ok((List<User>) userService.findAll());
     }
 
-    @PostMapping("/")
+    @PostMapping
     public ResponseEntity postUser(@RequestBody User user) {
         userService.save(user);
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/login")
+    @GetMapping("login")
     public ResponseEntity getUserLogin(@RequestParam String username, @RequestParam String password) {
         //TODO login
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/logout")
+    @GetMapping("logout")
     public ResponseEntity getUserLogout(@RequestParam String username, @RequestParam String password) {
         //TODO login
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("{id}")
     public ResponseEntity<User> getUser(@PathVariable Long id) {
         return ResponseEntity.ok(userService.findById(id).get());
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("{id}")
     public ResponseEntity<User> putUser(@PathVariable Long id) {
         return ResponseEntity.ok(userService.save(userService.findById(id).get()));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("{id}")
     public ResponseEntity deleteUser(@PathVariable Long id) {
         userService.deleteById(id);
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/{id}/orders")
+    @GetMapping("{id}/orders")
     public ResponseEntity<List<Order>> getUserOrders(@PathVariable Long id) {
         return ResponseEntity.ok(userService.findById(id).get().getOrders());
     }
 
-    @PostMapping("/{id}/orders")
+    @PostMapping("{id}/orders")
     public ResponseEntity postUserOrder(@PathVariable Long id, @RequestBody Order order) {
         User user = userService.findById(id).get();
         user.getOrders().add(order);

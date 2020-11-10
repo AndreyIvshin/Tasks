@@ -10,46 +10,46 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/orders")
+@RequestMapping("orders")
 public class OrderController {
 
     @Autowired
     private OrderService orderService;
 
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<List<Order>> getOrders() {
         return ResponseEntity.ok((List<Order>) orderService.findAll());
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("{id}")
     public ResponseEntity<Order> getOrder(@PathVariable Long id) {
         return ResponseEntity.ok(orderService.findById(id).get());
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("{id}")
     public ResponseEntity<Object> deleteOrder(@PathVariable Long id) {
         orderService.deleteById(id);
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/{id}/cancel")
+    @PostMapping("{id}/cancel")
     public ResponseEntity postOrderCancel(@PathVariable Long id) {
         //TODO cancel
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/{id}/purchase")
+    @PostMapping("{id}/purchase")
     public ResponseEntity postOrderPurchase(@PathVariable Long id) {
         //TODO purchase
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/{id}/items")
+    @GetMapping("{id}/items")
     public ResponseEntity<List<Product>> getOrderItems(@PathVariable Long id) {
         return ResponseEntity.ok(orderService.findById(id).get().getItems());
     }
 
-    @PostMapping("/{id}/items")
+    @PostMapping("{id}/items")
     public ResponseEntity postOrderItems(@PathVariable Long id, @RequestBody Product product) {
         Order order = orderService.findById(id).get();
         order.getItems().add(product);
@@ -57,12 +57,12 @@ public class OrderController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/{oid}/items/{iid}")
+    @GetMapping("{oid}/items/{iid}")
     public ResponseEntity<Product> getOrderItem(@PathVariable Long oid, @PathVariable Long iid) {
         return ResponseEntity.ok(orderService.findById(oid).get().getItems().stream().filter(p -> p.getId().equals(iid)).findAny().get());
     }
 
-    @DeleteMapping("/{oid}/items/{iid}")
+    @DeleteMapping("{oid}/items/{iid}")
     public ResponseEntity deleteOrderItem(@PathVariable Long oid, @PathVariable Long iid) {
         Order order = orderService.findById(oid).get();
         Product product = order.getItems().stream().filter(p -> p.getId().equals(iid)).findAny().get();

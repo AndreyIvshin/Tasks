@@ -10,29 +10,29 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/categories")
+@RequestMapping("categories")
 public class CategoryController {
 
     @Autowired
     private CategoryService categoryService;
 
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<List<Category>> getCategories() {
         return ResponseEntity.ok(((List<Category>) categoryService.findAll()));
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("{id}")
     public ResponseEntity<Category> getCategory(@PathVariable Long id) {
         return ResponseEntity.ok(categoryService.findById(id).get());
     }
 
-    @PostMapping("/")
+    @PostMapping
     public ResponseEntity postCategory(@RequestBody Category category) {
         Category savedCategory = categoryService.save(category);
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/{id}/products")
+    @GetMapping("{id}/products")
     public ResponseEntity<List<Product>> getCategoryProducts(@PathVariable Long id) {
         return ResponseEntity.ok(categoryService.findById(id).get().getProducts());
     }
