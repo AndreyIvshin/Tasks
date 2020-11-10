@@ -1,9 +1,7 @@
 package com.epam.newsportal.util;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.format.Formatter;
-import org.springframework.stereotype.Component;
 
 import java.text.DateFormat;
 import java.text.ParseException;

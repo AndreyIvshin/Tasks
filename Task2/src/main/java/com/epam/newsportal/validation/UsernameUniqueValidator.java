@@ -1,7 +1,7 @@
 package com.epam.newsportal.validation;
 
-import com.epam.newsportal.service.UserService;
 import com.epam.newsportal.model.entity.User;
+import com.epam.newsportal.service.UserService;
 import com.epam.newsportal.util.Rejecter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
