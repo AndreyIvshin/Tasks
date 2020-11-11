@@ -5,5 +5,5 @@ import com.epam.clothshop.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserService extends AbstractCrudRepositoryMirroringService<User, Long, UserRepository> {
+public class UserService extends AbstractCrudRepositoryAdaptingService<User, Long, UserRepository> {
 }

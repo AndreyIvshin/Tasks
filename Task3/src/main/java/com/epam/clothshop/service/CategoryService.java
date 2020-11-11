@@ -5,5 +5,5 @@ import com.epam.clothshop.repository.CategoryRepository;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CategoryService extends AbstractCrudRepositoryMirroringService<Category, Long, CategoryRepository> {
+public class CategoryService extends AbstractCrudRepositoryAdaptingService<Category, Long, CategoryRepository> {
 }

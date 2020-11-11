@@ -1,6 +1,7 @@
 package com.epam.clothshop.model;
 
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -9,14 +10,17 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
-@Data @NoArgsConstructor @FieldDefaults(level = AccessLevel.PRIVATE)
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
 @Table(name = "order_table")
 public class Order {
 
     @Id
-    @SequenceGenerator(name = "order_squ_gen", sequenceName = "order_seq")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "order_squ_gen")
+    @SequenceGenerator(name = "order_seq_gen", sequenceName = "order_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "order_seq_gen")
     @Column(name = "order_id")
     Long id;
 

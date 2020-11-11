@@ -5,5 +5,5 @@ import com.epam.clothshop.repository.VendorRepository;
 import org.springframework.stereotype.Service;
 
 @Service
-public class VendorService extends AbstractCrudRepositoryMirroringService<Vendor, Long, VendorRepository> {
+public class VendorService extends AbstractCrudRepositoryAdaptingService<Vendor, Long, VendorRepository> {
 }

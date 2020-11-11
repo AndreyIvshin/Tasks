@@ -3,9 +3,10 @@ package com.epam.clothshop.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 
+import java.util.List;
 import java.util.Optional;
 
-public abstract class AbstractCrudRepositoryMirroringService<T, ID, R extends CrudRepository<T, ID>> {
+public abstract class AbstractCrudRepositoryAdaptingService<T, ID, R extends CrudRepository<T, ID>> {
 
     @Autowired
     protected R r;
@@ -14,8 +15,8 @@ public abstract class AbstractCrudRepositoryMirroringService<T, ID, R extends Cr
         return r.save(var1);
     }
 
-    public <S extends T> Iterable<S> saveAll(Iterable<S> var1) {
-        return r.saveAll(var1);
+    public <S extends T> List<S> saveAll(List<S> var1) {
+        return (List<S>) r.saveAll(var1);
     }
 
     public Optional<T> findById(ID var1) {
@@ -26,12 +27,12 @@ public abstract class AbstractCrudRepositoryMirroringService<T, ID, R extends Cr
         return r.existsById(var1);
     }
 
-    public Iterable<T> findAll() {
-        return r.findAll();
+    public List<T> findAll() {
+        return (List<T>) r.findAll();
     }
 
-    public Iterable<T> findAllById(Iterable<ID> var1) {
-        return r.findAllById(var1);
+    public List<T> findAllById(List<ID> var1) {
+        return (List<T>) r.findAllById(var1);
     }
 
     public long count() {
@@ -46,7 +47,7 @@ public abstract class AbstractCrudRepositoryMirroringService<T, ID, R extends Cr
         r.delete(var1);
     }
 
-    public void deleteAll(Iterable<? extends T> var1) {
+    public void deleteAll(List<? extends T> var1) {
         r.deleteAll(var1);
     }
 
