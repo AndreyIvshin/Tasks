@@ -24,6 +24,17 @@ public abstract class ProductMapper {
     @NoArgsConstructor
     @AllArgsConstructor
     @FieldDefaults(level = AccessLevel.PRIVATE)
+    public static class ProductLite {
+        Long id;
+        String name;
+        Integer price;
+        Integer quantity;
+    }
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @FieldDefaults(level = AccessLevel.PRIVATE)
     public static class ProductFull {
         Long id;
         String name;
@@ -31,15 +42,15 @@ public abstract class ProductMapper {
         Integer quantity;
     }
 
-    @Map(ProductToSave.class)
     public abstract ProductToSave mapToSave(Product product);
 
-    @Map(ProductToSave.class)
     public abstract Product mapToSave(ProductToSave productToSave);
 
-    @Map(ProductFull.class)
+    public abstract ProductLite mapLite(Product product);
+
+    public abstract Product mapLite(ProductLite productLite);
+
     public abstract ProductFull mapFull(Product product);
 
-    @Map(ProductFull.class)
     public abstract Product mapFull(ProductFull productFull);
 }

@@ -1,5 +1,6 @@
 package com.epam.clothshop.model;
 
+import com.epam.clothshop.security.Role;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,7 +19,7 @@ import java.util.List;
 public class User {
 
     @Id
-    @SequenceGenerator(name = "user_seq_gen", sequenceName = "user_seq")
+    @SequenceGenerator(name = "user_seq_gen", sequenceName = "user_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq_gen")
     @Column(name = "user_id")
     Long id;
@@ -37,6 +38,10 @@ public class User {
 
     @Column(name = "user_password")
     String password;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "user_role")
+    Role role;
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_order_table",

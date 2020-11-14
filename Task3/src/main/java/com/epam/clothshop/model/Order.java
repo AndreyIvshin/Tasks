@@ -19,7 +19,7 @@ import java.util.List;
 public class Order {
 
     @Id
-    @SequenceGenerator(name = "order_seq_gen", sequenceName = "order_seq")
+    @SequenceGenerator(name = "order_seq_gen", sequenceName = "order_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "order_seq_gen")
     @Column(name = "order_id")
     Long id;
@@ -37,7 +37,7 @@ public class Order {
     Status status;
 
     @Column(name = "order_complete")
-    Boolean complete = false;
+    Boolean complete;
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "order_product_table",

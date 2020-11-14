@@ -10,7 +10,7 @@ import java.util.Objects;
 public class News extends AbstractEntity{
 
     @Id
-    @SequenceGenerator(name = "news_sequence_generator", sequenceName = "news_sequence")
+    @SequenceGenerator(name = "news_sequence_generator", sequenceName = "news_sequence", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "news_sequence_generator")
     @Column(name = "news_id")
     private Long id;
