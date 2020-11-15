@@ -1,6 +1,5 @@
 package com.epam.clothshop.mapper;
 
-import lombok.Data;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.AnnotatedBeanDefinition;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
@@ -21,18 +20,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@Data
 @Component
 public class MapperInitializer implements BeanFactoryPostProcessor, ApplicationContextAware {
 
-    private ApplicationContext applicationContext;
     private String basePackage = "com.epam.clothshop.mapper";
+    private ApplicationContext applicationContext;
 
-    public void setApplicationContext(ApplicationContext applicationContext) {
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.applicationContext = applicationContext;
     }
 
-    @Override
     public void postProcessBeanFactory(ConfigurableListableBeanFactory configurableListableBeanFactory) throws BeansException {
         ClassPathScanningCandidateComponentProvider provider = new ClassPathScanningCandidateComponentProvider(false) {
             @Override

@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Mapper
@@ -36,7 +37,7 @@ public abstract class VendorMapper {
     public static class VendorFull {
         Long id;
         String name;
-        List<ProductMapper.ProductLite> products;
+        List<ProductMapper.ProductLite> products = new ArrayList<>();
     }
 
     public abstract VendorToSave mapToSave(Vendor vendor);

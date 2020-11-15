@@ -1,15 +1,18 @@
 package com.epam.clothshop.mapper;
 
 import com.epam.clothshop.model.User;
+import com.epam.clothshop.security.Role;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Mapper
+@NoArgsConstructor
 public abstract class UserMapper {
 
     @Data
@@ -22,6 +25,7 @@ public abstract class UserMapper {
         String lastName;
         String email;
         String password;
+        Role role;
     }
 
     @Data
@@ -35,6 +39,7 @@ public abstract class UserMapper {
         String lastName;
         String email;
         String password;
+        Role role;
     }
 
     @Data
@@ -48,7 +53,8 @@ public abstract class UserMapper {
         String lastName;
         String email;
         String password;
-        List<OrderMapper.OrderLite> orders;
+        Role role;
+        List<OrderMapper.OrderLite> orders = new ArrayList<>();
     }
 
     public abstract UserToSave mapToSave(User user);

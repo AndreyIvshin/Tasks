@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -43,7 +44,7 @@ public class Order {
     @JoinTable(name = "order_product_table",
             joinColumns = @JoinColumn(name = "order_fk"),
             inverseJoinColumns = @JoinColumn(name = "product_fk"))
-    List<Product> items;
+    List<Product> products = new ArrayList<>();
 
     public enum Status {
         PLACED, APPROVED, DELIVERED;

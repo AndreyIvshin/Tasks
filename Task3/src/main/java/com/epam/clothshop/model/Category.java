@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -30,6 +31,6 @@ public class Category {
     @JoinTable(name = "category_products_table",
             joinColumns = @JoinColumn(name = "category_fk"),
             inverseJoinColumns = @JoinColumn(name = "product_fk"))
-    List<Product> products;
+    List<Product> products = new ArrayList<>();
 
 }

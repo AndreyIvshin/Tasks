@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -47,6 +48,6 @@ public class User {
     @JoinTable(name = "user_order_table",
             joinColumns = @JoinColumn(name = "user_fk"),
             inverseJoinColumns = @JoinColumn(name = "order_fk"))
-    List<Order> orders;
+    List<Order> orders = new ArrayList<>();
 
 }

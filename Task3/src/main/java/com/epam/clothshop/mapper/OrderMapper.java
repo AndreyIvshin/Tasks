@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -46,7 +47,7 @@ public abstract class OrderMapper {
         Date createdAt;
         Order.Status status;
         Boolean complete;
-        List<ProductMapper.ProductLite> items;
+        List<ProductMapper.ProductLite> items = new ArrayList<>();
     }
 
     public abstract OrderToSave mapToSave(Order order);

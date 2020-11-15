@@ -5,6 +5,7 @@ import com.epam.clothshop.model.Product;
 import com.epam.clothshop.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("api/products")
+@PreAuthorize("hasAuthority('WRITE')")
 public class ProductController {
 
     @Autowired
@@ -20,11 +22,13 @@ public class ProductController {
     private ProductMapper productMapper;
 
     @GetMapping
+    @PreAuthorize("hasAuthority('READ') or hasAuthority('WRITE')")
     public List<ProductMapper.ProductLite> getProducts() {
         return productService.findAll().stream().map(productMapper::mapLite).collect(Collectors.toList());
     }
 
     @GetMapping("{id}")
+    @PreAuthorize("hasAuthority('READ') or hasAuthority('WRITE')")
     public ResponseEntity<ProductMapper.ProductFull> getProduct(@PathVariable Long id) {
         return productService.findById(id).map(product -> ResponseEntity.ok(productMapper.mapFull(product)))
                 .orElseGet(() -> ResponseEntity.notFound().build());

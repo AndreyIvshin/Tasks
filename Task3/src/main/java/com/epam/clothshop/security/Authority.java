@@ -1,13 +1,6 @@
 package com.epam.clothshop.security;
 
-import org.springframework.security.core.GrantedAuthority;
-
-public enum Authority implements GrantedAuthority {
+public enum Authority {
     READ,
     WRITE;
-
-    @Override
-    public String getAuthority() {
-        return toString();
-    }
 }
