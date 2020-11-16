@@ -50,7 +50,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private void login(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException, ServletException {
         Optional<Cookie> optional = jwtGenerator.extractCookie(request);
         if (optional.isPresent()) {
-            deny(HttpServletResponse.SC_FORBIDDEN, request, response, filterChain);
+            deny(request, response, filterChain);
         } else {
             filterChain.doFilter(request, response);
         }
@@ -59,7 +59,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private void logout(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException, ServletException {
         Optional<Cookie> optional = jwtGenerator.extractCookie(request);
         if (!optional.isPresent()) {
-            deny(HttpServletResponse.SC_FORBIDDEN, request, response, filterChain);
+            deny(request, response, filterChain);
         } else {
             filterChain.doFilter(request, response);
         }
@@ -68,14 +68,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private void validate(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException, ServletException {
         Optional<Cookie> optional = jwtGenerator.extractCookie(request);
         if (!optional.isPresent()) {
-            deny(HttpServletResponse.SC_FORBIDDEN, request, response, filterChain);
+            deny(request, response, filterChain);
         } else {
             SecurityModel securityModel = null;
             try {
                 securityModel = jwtGenerator.parseCookie(optional.get());
             } catch (JwtException e) {
                 e.printStackTrace();
-                deny(HttpServletResponse.SC_FORBIDDEN, request, response, filterChain);
+                deny(request, response, filterChain);
                 return;
             }
             SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(
@@ -86,7 +86,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
     }
 
-    private void deny(int code, HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException, ServletException {
+    private void deny(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException, ServletException {
         request.getRequestDispatcher(DENY_PATH).forward(request, response);
     }
 }

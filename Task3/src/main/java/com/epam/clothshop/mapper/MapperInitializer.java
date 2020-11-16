@@ -14,6 +14,7 @@ import org.springframework.core.type.filter.AnnotationTypeFilter;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
@@ -44,8 +45,9 @@ public class MapperInitializer implements BeanFactoryPostProcessor, ApplicationC
     }
 
     public Object init(String mapperClassName) throws BeansException {
+        Object mapper = null;
         try {
-            return Enhancer.create(Class.forName(mapperClassName), new MethodInterceptor() {
+            mapper = Enhancer.create(Class.forName(mapperClassName), new MethodInterceptor() {
                 @Override
                 public Object intercept(Object o, Method method, Object[] objects, MethodProxy methodProxy) throws Throwable {
                     if (Arrays.asList(Object.class.getMethods()).contains(method)) {
@@ -55,10 +57,11 @@ public class MapperInitializer implements BeanFactoryPostProcessor, ApplicationC
                     }
                 }
             });
-        } catch (ClassNotFoundException e) {
+        } catch (
+                ClassNotFoundException e) {
             e.printStackTrace();
         }
-        return null;
+        return mapper;
     }
 
     private Object map(Object returnObject, Object paramObject) throws Throwable {
@@ -78,7 +81,6 @@ public class MapperInitializer implements BeanFactoryPostProcessor, ApplicationC
             }
         }
     }
-
 
     private Object mapEntityToTransfer(Object entity, Object transfer) throws Throwable {
         for (Field field : transfer.getClass().getDeclaredFields()) {
@@ -133,7 +135,11 @@ public class MapperInitializer implements BeanFactoryPostProcessor, ApplicationC
     }
 
     private void setObject(Method setter, Object setterObject, Method getter, Object getterObject) throws Throwable {
-        setter.invoke(setterObject, getter.invoke(getterObject));
+        if (setter.getParameterTypes().length > 1) {
+            setter.invoke(setterObject, getObjectToGet(getter, getterObject), applicationContext);
+        } else {
+            setter.invoke(setterObject, getObjectToGet(getter, getterObject));
+        }
     }
 
     private void setList(Method setter, Object setterObject, Method getter, Object getterObject, Class returnClass, Class paramClass, Object mapper) throws Throwable {
@@ -141,9 +147,23 @@ public class MapperInitializer implements BeanFactoryPostProcessor, ApplicationC
                 .filter(method -> method.getReturnType().equals(returnClass) && method.getParameterTypes()[0].equals(paramClass))
                 .findAny().orElseThrow(NoSuchMethodError::new);
         List list = new ArrayList();
-        for (Object object : new ArrayList<Object>((List) getter.invoke(getterObject))) {
+        for (Object object : new ArrayList<Object>((List) getObjectToGet(getter, getterObject))) {
             list.add(map.invoke(mapper, object));
         }
-        setter.invoke(setterObject, list);
+        if (setter.getParameterTypes().length > 1) {
+            setter.invoke(setterObject, list, applicationContext);
+        } else {
+            setter.invoke(setterObject, list);
+        }
+    }
+
+    private Object getObjectToGet(Method getter, Object getterObject) throws InvocationTargetException, IllegalAccessException {
+        Object valueToGet = null;
+        if (getter.getParameterTypes().length > 0) {
+            valueToGet = getter.invoke(getterObject, applicationContext);
+        } else {
+            valueToGet = getter.invoke(getterObject);
+        }
+        return valueToGet;
     }
 }

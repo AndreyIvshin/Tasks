@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.context.ApplicationContext;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +28,14 @@ public abstract class UserMapper {
         String email;
         String password;
         Role role;
+
+        public String getPassword(ApplicationContext applicationContext) {
+            return applicationContext.getBean(BCryptPasswordEncoder.class).encode(password);
+        }
+
+        public void setPassword(String password) {
+            this.password = "hidden";
+        }
     }
 
     @Data
@@ -40,6 +50,14 @@ public abstract class UserMapper {
         String email;
         String password;
         Role role;
+
+        public String getPassword(ApplicationContext applicationContext) {
+            return applicationContext.getBean(BCryptPasswordEncoder.class).encode(password);
+        }
+
+        public void setPassword(String password) {
+            this.password = "hidden";
+        }
     }
 
     @Data
@@ -55,6 +73,14 @@ public abstract class UserMapper {
         String password;
         Role role;
         List<OrderMapper.OrderLite> orders = new ArrayList<>();
+
+        public String getPassword(ApplicationContext applicationContext) {
+            return applicationContext.getBean(BCryptPasswordEncoder.class).encode(password);
+        }
+
+        public void setPassword(String password) {
+            this.password = "hidden";
+        }
     }
 
     public abstract UserToSave mapToSave(User user);
