@@ -7,9 +7,9 @@ import com.epam.clothshop.security.Authority;
 import com.epam.clothshop.service.OrderService;
 import com.epam.clothshop.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -30,8 +30,6 @@ public class UserController {
     private OrderService orderService;
     @Autowired
     private UserMapper userMapper;
-    @Autowired
-    private ApplicationContext applicationContext;
 
     @GetMapping
     @PreAuthorize("hasAuthority('WRITE')")
@@ -53,21 +51,25 @@ public class UserController {
 
     @PostMapping
     @PreAuthorize("hasAuthority('WRITE') or isAnonymous()")
-    public ResponseEntity postUser(@RequestBody UserMapper.UserToSave userToSave) {
+    public ResponseEntity<UserMapper.UserFull> postUser(@RequestBody UserMapper.UserToSave userToSave) {
         userService.save(userMapper.mapToSave(userToSave));
         return ResponseEntity.ok().build();
     }
 
     @PutMapping("{id}")
-    public ResponseEntity putUser(@PathVariable Long id, @RequestBody UserMapper.UserToSave userToSave) {
-        if (((Long) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).equals(id)
-                || SecurityContextHolder.getContext().getAuthentication().getAuthorities()
-                .contains(new SimpleGrantedAuthority(Authority.WRITE.toString()))) {
+    public ResponseEntity putUser(@PathVariable Long id, @RequestBody UserMapper.UserToSave userToSave, HttpServletResponse response) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        SimpleGrantedAuthority write = new SimpleGrantedAuthority(Authority.WRITE.toString());
+        if (((Long) authentication.getPrincipal()).equals(id) || authentication.getAuthorities().contains(write)) {
             Optional<User> optional = userService.findById(id);
             if (optional.isPresent()) {
-
-                //TODO different transfers
-
+                User user = userMapper.mapToSave(userToSave);
+                user.setId(id);
+                if (((Long) authentication.getPrincipal()).equals(id)
+                        && !user.getRole().equals(optional.get().getRole())) {
+                    return ResponseEntity.status(HttpServletResponse.SC_FORBIDDEN).build();
+                }
+                userService.save(user);
                 return ResponseEntity.ok().build();
             } else {
                 return ResponseEntity.notFound().build();
