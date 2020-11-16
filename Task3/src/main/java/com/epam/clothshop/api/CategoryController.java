@@ -5,18 +5,23 @@ import com.epam.clothshop.model.Category;
 import com.epam.clothshop.model.Product;
 import com.epam.clothshop.service.CategoryService;
 import com.epam.clothshop.service.ProductService;
+import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Transactional
 @RestController
 @RequestMapping("api/categories")
 @PreAuthorize("hasAuthority('WRITE')")
+@Api(tags = "category")
 public class CategoryController {
 
     @Autowired
@@ -28,24 +33,28 @@ public class CategoryController {
 
     @GetMapping
     @PreAuthorize("hasAuthority('READ') or hasAuthority('WRITE')")
+    @Operation(summary = "Get all categories")
     public List<CategoryMapper.CategoryLite> getCategories() {
         return categoryService.findAll().stream().map(categoryMapper::mapLite).collect(Collectors.toList());
     }
 
     @GetMapping("{id}")
     @PreAuthorize("hasAuthority('READ') or hasAuthority('WRITE')")
+    @Operation(summary = "Get category")
     public ResponseEntity<CategoryMapper.CategoryFull> getCategory(@PathVariable Long id) {
         return categoryService.findById(id).map(category -> ResponseEntity.ok(categoryMapper.mapFull(category)))
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping
+    @Operation(summary = "Create category")
     public ResponseEntity postCategory(@RequestBody CategoryMapper.CategoryToSave categoryToSave) {
         categoryService.save(categoryMapper.mapToSave(categoryToSave));
         return ResponseEntity.ok().build();
     }
 
     @PutMapping("{id}")
+    @Operation(summary = "Modify category")
     public ResponseEntity putCategory(@PathVariable Long id, @RequestBody CategoryMapper.CategoryToSave categoryToSave) {
         if (categoryService.findById(id).isPresent()) {
             Category category = categoryMapper.mapToSave(categoryToSave);
@@ -58,6 +67,7 @@ public class CategoryController {
     }
 
     @DeleteMapping("{id}")
+    @Operation(summary = "Remove category")
     public ResponseEntity deleteCategory(@PathVariable Long id) {
         if (categoryService.findById(id).isPresent()) {
             categoryService.deleteById(id);
@@ -68,6 +78,7 @@ public class CategoryController {
     }
 
     @PutMapping("{id}/products/{iid}")
+    @Operation(summary = "Add product to category")
     public ResponseEntity putCategoryProduct(@PathVariable Long id, @PathVariable Long iid) {
         Optional<Category> categoryOptional = categoryService.findById(id);
         if (categoryOptional.isPresent()) {
@@ -85,6 +96,7 @@ public class CategoryController {
     }
 
     @DeleteMapping("{id}/products/{iid}")
+    @Operation(summary = "Delete product from category")
     public ResponseEntity deleteCategoryProduct(@PathVariable Long id, @PathVariable Long iid) {
         Optional<Category> categoryOptional = categoryService.findById(id);
         if (categoryOptional.isPresent()) {

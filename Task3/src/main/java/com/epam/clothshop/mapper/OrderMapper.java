@@ -47,7 +47,7 @@ public abstract class OrderMapper {
         Date createdAt;
         Order.Status status;
         Boolean complete;
-        List<ProductMapper.ProductLite> items = new ArrayList<>();
+        List<ProductMapper.ProductLite> products = new ArrayList<>();
     }
 
     public abstract OrderToSave mapToSave(Order order);
