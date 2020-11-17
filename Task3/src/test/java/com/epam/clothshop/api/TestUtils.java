@@ -1,9 +1,8 @@
 package com.epam.clothshop.api;
 
-import com.epam.clothshop.model.Order;
-import com.epam.clothshop.model.Product;
-import com.epam.clothshop.service.OrderService;
-import com.epam.clothshop.service.ProductService;
+import com.epam.clothshop.model.*;
+import com.epam.clothshop.security.Role;
+import com.epam.clothshop.service.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -27,12 +26,22 @@ public class TestUtils {
     private ProductService _productService;
     @Autowired
     private OrderService _orderService;
+    @Autowired
+    private VendorService _vendorService;
+    @Autowired
+    private CategoryService _categoryService;
+    @Autowired
+    private UserService _userService;
 
 
     private static ObjectMapper objectMapper;
     private static MockMvc mockMvc;
     private static ProductService productService;
     private static OrderService orderService;
+    private static VendorService vendorService;
+    private static CategoryService categoryService;
+    private static UserService userService;
+
 
     @PostConstruct
     public void init() {
@@ -40,6 +49,9 @@ public class TestUtils {
         mockMvc = _mockMvc;
         productService = _productService;
         orderService = _orderService;
+        vendorService = _vendorService;
+        categoryService = _categoryService;
+        userService = _userService;
     }
 
     public static String LOGIN_PATH = "/api/login";
@@ -50,6 +62,9 @@ public class TestUtils {
     public static String PASSWORD = "password";
     public static String PRODUCTS = "/api/products";
     public static String ORDERS = "/api/orders";
+    public static String VENDORS = "/api/vendors";
+    public static String CATEGORIES = "/api/categories";
+    public static String USERS = "/api/users";
 
     public static Cookie login(String username, String password) throws Exception {
         return mockMvc
@@ -102,7 +117,6 @@ public class TestUtils {
             order.setStatus(Order.Status.DELIVERED);
             orders.add(order);
         }
-        orderService.saveAll(orders);
         for (int i = 0; i < orders.size(); i++) {
             orders.get(i).getProducts().add(products.get(i));
         }
@@ -129,5 +143,76 @@ public class TestUtils {
         order.setStatus(Order.Status.DELIVERED);
         order.setProducts(products);
         return order;
+    }
+
+    public static List<Vendor> populateVendors() {
+        List<Product> products = populateProducts();
+        List<Vendor> vendors = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            Vendor vendor = new Vendor();
+            vendor.setName("vendor" + i);
+        }
+        for (int i = 0; i < vendors.size(); i++) {
+            vendors.get(i).getProducts().add(products.get(i));
+        }
+        return vendorService.saveAll(vendors);
+    }
+
+    public static Vendor populateVendor() {
+        List<Product> products = populateProducts();
+        Vendor vendor = new Vendor();
+        vendor.setName("vendor");
+        vendor.setProducts(products);
+        return vendorService.save(vendor);
+    }
+
+    public static Vendor createVendor() {
+        List<Product> products = populateProducts();
+        Vendor vendor = new Vendor();
+        vendor.setName("vendor");
+        vendor.setProducts(products);
+        return vendor;
+    }
+
+    public static List<Category> populateCategories() {
+        List<Product> products = populateProducts();
+        List<Category> categories = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            Category category = new Category();
+            category.setName("category" + i);
+        }
+        for (int i = 0; i < categories.size(); i++) {
+            categories.get(i).getProducts().add(products.get(i));
+        }
+        return categoryService.saveAll(categories);
+    }
+
+    public static Category populateCategory() {
+        List<Product> products = populateProducts();
+        Category category = new Category();
+        category.setName("category");
+        category.setProducts(products);
+        return categoryService.save(category);
+    }
+
+    public static Category createCategory() {
+        List<Product> products = populateProducts();
+        Category category = new Category();
+        category.setName("category");
+        category.setProducts(products);
+        return category;
+    }
+
+    public static User createUser() {
+        List<Order> orders = populateOrders();
+        User user = new User();
+        user.setUsername("newUser");
+        user.setPassword("newUser");
+        user.setRole(Role.USER);
+        user.setEmail("email");
+        user.setLastName("lastname");
+        user.setFirstName("firstname");
+        user.setOrders(orders);
+        return user;
     }
 }

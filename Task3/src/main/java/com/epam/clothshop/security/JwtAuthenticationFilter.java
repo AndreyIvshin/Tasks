@@ -22,7 +22,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final static String API_PATH = "/api";
     private final static String DENY_PATH = "/api/denied";
-    private final static String REGISTRATION_PATH = "/api/user";
+    private final static String REGISTRATION_PATH = "/api/users";
     private final static String LOGIN_PATH = "/api/login";
     private final static String LOGOUT_PATH = "/api/logout";
     private final static String POST = "POST";
@@ -32,9 +32,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if (
                 !request.getRequestURI().startsWith(request.getContextPath().concat(API_PATH))
                         || request.getRequestURI().equals(request.getContextPath().concat(DENY_PATH))
-                        || (request.getRequestURI().equals(request.getContextPath().concat(DENY_PATH)) && request.getMethod().equals(POST))
+                        || (request.getRequestURI().equals(request.getContextPath().concat(REGISTRATION_PATH)) && request.getMethod().equals(POST))
         ) {
-            filterChain.doFilter(request, response);
+            if (jwtGenerator.extractCookie(request).isPresent()) {
+                validate(request, response, filterChain);
+            } else {
+                filterChain.doFilter(request, response);
+            }
         } else {
             if (request.getRequestURI().equals(request.getContextPath().concat(LOGIN_PATH)) && request.getMethod().equals(POST)) {
                 login(request, response, filterChain);

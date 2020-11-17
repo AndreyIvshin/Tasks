@@ -61,8 +61,7 @@ class OrderControllerTest {
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
 
-        var results = objectMapper().readValue(json, new TypeReference<List<OrderMapper.OrderLite>>() {
-        });
+        var results = objectMapper().readValue(json, new TypeReference<List<OrderMapper.OrderLite>>() {});
 
         assertTrue(results.containsAll(origins));
         assertTrue(origins.containsAll(results));
@@ -87,7 +86,7 @@ class OrderControllerTest {
     }
 
     @Test
-    void postOrders() throws Exception {
+    void postOrder() throws Exception {
         Order order = createOrder();
 
         String json = objectMapper().writeValueAsString(orderMapper.mapToSave(order));
@@ -114,7 +113,7 @@ class OrderControllerTest {
     }
 
     @Test
-    void putOrders() throws Exception {
+    void putOrder() throws Exception {
         Order order = populateOrder();
 
         var orderToSave = orderMapper.mapToSave(order);
@@ -141,7 +140,7 @@ class OrderControllerTest {
     }
 
     @Test
-    void deleteOrders() throws Exception {
+    void deleteOrder() throws Exception {
         Order order = populateOrder();
 
         mockMvc

@@ -69,6 +69,7 @@ public class UserController {
     @PreAuthorize("hasAuthority('WRITE') or isAnonymous()")
     @Operation(summary = "Create user")
     public ResponseEntity<UserMapper.UserFull> postUser(@RequestBody UserMapper.UserToSave userToSave) {
+        //TODO anonymous shouldn't create account with ADMIN role
         User save = userService.save(userMapper.mapToSave(userToSave));
         return ResponseEntity.created(ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(save.getId()).toUri()).body(userMapper.mapFull(save));
