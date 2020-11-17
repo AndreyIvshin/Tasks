@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.List;
 import java.util.Optional;
@@ -49,8 +50,9 @@ public class CategoryController {
     @PostMapping
     @Operation(summary = "Create category")
     public ResponseEntity postCategory(@RequestBody CategoryMapper.CategoryToSave categoryToSave) {
-        categoryService.save(categoryMapper.mapToSave(categoryToSave));
-        return ResponseEntity.ok().build();
+        Category save = categoryService.save(categoryMapper.mapToSave(categoryToSave));
+        return ResponseEntity.created(ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+                .buildAndExpand(save.getId()).toUri()).body(categoryMapper.mapFull(save));
     }
 
     @PutMapping("{id}")

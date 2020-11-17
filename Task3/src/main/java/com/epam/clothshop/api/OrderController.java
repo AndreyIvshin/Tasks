@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.List;
 import java.util.Optional;
@@ -47,8 +48,9 @@ public class OrderController {
     @PostMapping
     @Operation(summary = "Create order")
     public ResponseEntity postOrders(@RequestBody OrderMapper.OrderToSave categoryToSave) {
-        orderService.save(orderMapper.mapToSave(categoryToSave));
-        return ResponseEntity.ok().build();
+        Order save = orderService.save(orderMapper.mapToSave(categoryToSave));
+        return ResponseEntity.created(ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+                .buildAndExpand(save.getId()).toUri()).body(orderMapper.mapFull(save));
     }
 
     @PutMapping("{id}")

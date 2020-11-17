@@ -15,6 +15,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
@@ -68,8 +69,9 @@ public class UserController {
     @PreAuthorize("hasAuthority('WRITE') or isAnonymous()")
     @Operation(summary = "Create user")
     public ResponseEntity<UserMapper.UserFull> postUser(@RequestBody UserMapper.UserToSave userToSave) {
-        userService.save(userMapper.mapToSave(userToSave));
-        return ResponseEntity.ok().build();
+        User save = userService.save(userMapper.mapToSave(userToSave));
+        return ResponseEntity.created(ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+                .buildAndExpand(save.getId()).toUri()).body(userMapper.mapFull(save));
     }
 
     @PutMapping("{id}")

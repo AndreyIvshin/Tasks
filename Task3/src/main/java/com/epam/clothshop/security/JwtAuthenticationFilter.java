@@ -12,6 +12,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Optional;
 
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -30,8 +31,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException, ServletException {
         if (
                 !request.getRequestURI().startsWith(request.getContextPath().concat(API_PATH))
-                || request.getRequestURI().equals(request.getContextPath().concat(DENY_PATH))
-                || (request.getRequestURI().equals(request.getContextPath().concat(DENY_PATH)) && request.getMethod().equals(POST))
+                        || request.getRequestURI().equals(request.getContextPath().concat(DENY_PATH))
+                        || (request.getRequestURI().equals(request.getContextPath().concat(DENY_PATH)) && request.getMethod().equals(POST))
         ) {
             filterChain.doFilter(request, response);
         } else {
@@ -87,6 +88,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
     private void deny(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException, ServletException {
+        response.setStatus(HttpServletResponse.SC_FORBIDDEN);
         request.getRequestDispatcher(DENY_PATH).forward(request, response);
     }
 }

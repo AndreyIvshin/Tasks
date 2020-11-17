@@ -33,15 +33,4 @@ public class SecurityService implements UserDetailsService {
         securityModel.setAuthorities(user.getRole().getAuthorities().stream().map(a -> new SimpleGrantedAuthority(a.toString())).collect(Collectors.toList()));
         return securityModel;
     }
-
-    public void registerUser() {
-        User user = new User();
-        user.setUsername("username");
-        user.setPassword(passwordEncoder.encode("password"));
-        user.setFirstName("firstname");
-        user.setLastName("lastname");
-        user.setEmail("email");
-        user.setRole(Role.ADMIN);
-        userRepository.save(user);
-    }
 }

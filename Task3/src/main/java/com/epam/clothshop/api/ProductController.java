@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -44,8 +45,9 @@ public class ProductController {
     @PostMapping
     @Operation(summary = "Create product")
     public ResponseEntity postProduct(@RequestBody ProductMapper.ProductToSave productToSave) {
-        productService.save(productMapper.mapToSave(productToSave));
-        return ResponseEntity.ok().build();
+        Product save = productService.save(productMapper.mapToSave(productToSave));
+        return ResponseEntity.created(ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+                .buildAndExpand(save.getId()).toUri()).body(productMapper.mapFull(save));
     }
 
     @PutMapping("{id}")

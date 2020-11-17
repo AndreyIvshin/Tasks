@@ -27,14 +27,23 @@ services:
 #    depends_on:
 #      - postgres
 
-  postgres:
+#  postgres:
+#    image: postgres:13
+#    environment:
+#      - POSTGRES_USER=root
+#      - POSTGRES_PASSWORD=1234
+#      - POSTGRES_DB=postgres
+#    ports:
+#      - 5432:5432
+
+  postgres-test:
     image: postgres:13
     environment:
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=1234
-      - POSTGRES_DB=postres
+      - POSTGRES_DB=postgres
     ports:
-      - 5432:5432
+      - 5431:5432
 
 #  oracle:
 #    image: store/oracle/database-enterprise:12.2.0.1

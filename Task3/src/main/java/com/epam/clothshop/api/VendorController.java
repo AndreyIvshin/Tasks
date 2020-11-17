@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.List;
 import java.util.Optional;
@@ -49,8 +50,9 @@ public class VendorController {
     @PostMapping
     @Operation(summary = "Create vendor")
     public ResponseEntity postVendor(@RequestBody VendorMapper.VendorToSave vendorToSave) {
-        vendorService.save(vendorMapper.mapToSave(vendorToSave));
-        return ResponseEntity.ok().build();
+        Vendor save = vendorService.save(vendorMapper.mapToSave(vendorToSave));
+        return ResponseEntity.created(ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+                .buildAndExpand(save.getId()).toUri()).body(vendorMapper.mapFull(save));
     }
 
     @PutMapping("{id}")
