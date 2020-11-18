@@ -4,16 +4,14 @@ import com.epam.clothshop.mapper.ProductMapper;
 import com.epam.clothshop.model.Product;
 import com.epam.clothshop.service.ProductService;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.var;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,7 +22,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.epam.clothshop.api.TestUtils.*;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -33,8 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-@TestPropertySource(locations = "classpath:application-test.properties")
-class ProductControllerTest {
+public class ProductControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -44,7 +42,7 @@ class ProductControllerTest {
     private ProductMapper productMapper;
 
     @Test
-    void getProducts() throws Exception {
+    public void getProducts() throws Exception {
         List<Product> products = populateProducts();
 
         var origins = products.stream().map(productMapper::mapLite).collect(Collectors.toList());
@@ -63,7 +61,7 @@ class ProductControllerTest {
     }
 
     @Test
-    void getProduct() throws Exception {
+    public void getProduct() throws Exception {
         Product product = populateProduct();
 
         var origin = productMapper.mapFull(product);
@@ -81,7 +79,7 @@ class ProductControllerTest {
     }
 
     @Test
-    void postProduct() throws Exception {
+    public void postProduct() throws Exception {
         Product product = createProduct();
 
         String json = objectMapper().writeValueAsString(productMapper.mapToSave(product));
@@ -108,7 +106,7 @@ class ProductControllerTest {
     }
 
     @Test
-    void postProductDenied() throws Exception {
+    public void postProductDenied() throws Exception {
         Product product = createProduct();
 
         var productToSave = productMapper.mapToSave(product);
@@ -125,7 +123,7 @@ class ProductControllerTest {
     }
 
     @Test
-    void putProduct() throws Exception{
+    public void putProduct() throws Exception{
         Product product = populateProduct();
 
         var productToSave = productMapper.mapToSave(product);
@@ -148,7 +146,7 @@ class ProductControllerTest {
     }
 
     @Test
-    void putProductDenied() throws Exception{
+    public void putProductDenied() throws Exception{
         Product product = createProduct();
 
         var productToSave = productMapper.mapToSave(product);
@@ -165,7 +163,7 @@ class ProductControllerTest {
     }
 
     @Test
-    void deleteProduct() throws Exception {
+    public void deleteProduct() throws Exception {
         Product product = populateProduct();
 
         mockMvc
@@ -180,7 +178,7 @@ class ProductControllerTest {
     }
 
     @Test
-    void deleteProductDenied() throws Exception {
+    public void deleteProductDenied() throws Exception {
         mockMvc
                 .perform(delete(PRODUCTS + "/" + 1)
                         .cookie(login("user", "user")))

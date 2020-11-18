@@ -4,14 +4,13 @@ import com.epam.clothshop.mapper.UserMapper;
 import com.epam.clothshop.model.User;
 import com.epam.clothshop.security.JwtGenerator;
 import com.epam.clothshop.service.UserService;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,8 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-@TestPropertySource(locations = "classpath:application-test.properties")
-class SecurityControllerTest {
+public class SecurityControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -46,7 +44,7 @@ class SecurityControllerTest {
     private BCryptPasswordEncoder passwordEncoder;
 
     @Test
-    void loginWithoutParameters() throws Exception {
+    public void loginWithoutParameters() throws Exception {
         mockMvc
                 .perform(post(LOGIN_PATH))
                 .andDo(print())
@@ -64,7 +62,7 @@ class SecurityControllerTest {
     }
 
     @Test
-    void loginWithParameters() throws Exception {
+    public void loginWithParameters() throws Exception {
         MockHttpServletResponse response = mockMvc
                 .perform(post(LOGIN_PATH)
                         .param(USERNAME, "user")
@@ -91,7 +89,7 @@ class SecurityControllerTest {
     }
 
     @Test
-    void loginWhileAlreadyLoggedIn() throws Exception {
+    public void loginWhileAlreadyLoggedIn() throws Exception {
         Cookie cookie = mockMvc
                 .perform(post(LOGIN_PATH)
                         .param(USERNAME, "user")
@@ -109,7 +107,7 @@ class SecurityControllerTest {
     }
 
     @Test
-    void logoutWhileLoggedIn() throws Exception {
+    public void logoutWhileLoggedIn() throws Exception {
         Cookie cookie = mockMvc
                 .perform(post(LOGIN_PATH)
                         .param(USERNAME, "user")
@@ -130,7 +128,7 @@ class SecurityControllerTest {
     }
 
     @Test
-    void logoutWhileNotLoggedIn() throws Exception {
+    public void logoutWhileNotLoggedIn() throws Exception {
         mockMvc
                 .perform(post(LOGOUT_PATH))
                 .andDo(print())
@@ -138,7 +136,7 @@ class SecurityControllerTest {
     }
 
     @Test
-    void accessDenied() throws Exception {
+    public void accessDenied() throws Exception {
         mockMvc
                 .perform(post(DENIED_PATH))
                 .andDo(print())

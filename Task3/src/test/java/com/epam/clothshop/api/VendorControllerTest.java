@@ -1,22 +1,18 @@
 package com.epam.clothshop.api;
 
-import com.epam.clothshop.mapper.OrderMapper;
 import com.epam.clothshop.mapper.VendorMapper;
-import com.epam.clothshop.model.Order;
 import com.epam.clothshop.model.Product;
 import com.epam.clothshop.model.Vendor;
-import com.epam.clothshop.service.OrderService;
 import com.epam.clothshop.service.VendorService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import lombok.var;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,8 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-@TestPropertySource(locations = "classpath:application-test.properties")
-class VendorControllerTest {
+public class VendorControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -48,7 +43,7 @@ class VendorControllerTest {
     private VendorMapper vendorMapper;
 
     @Test
-    void getVendors() throws Exception {
+    public void getVendors() throws Exception {
         List<Vendor> vendors = populateVendors();
 
         var origins = vendors.stream().map(vendorMapper::mapLite).collect(Collectors.toList());
@@ -67,7 +62,7 @@ class VendorControllerTest {
     }
 
     @Test
-    void getVendor() throws Exception {
+    public void getVendor() throws Exception {
         Vendor vendor = populateVendor();
 
         var origin = vendorMapper.mapFull(vendor);
@@ -85,7 +80,7 @@ class VendorControllerTest {
     }
 
     @Test
-    void postVendor() throws Exception {
+    public void postVendor() throws Exception {
         Vendor vendor = createVendor();
 
         String json = objectMapper().writeValueAsString(vendorMapper.mapToSave(vendor));
@@ -112,7 +107,7 @@ class VendorControllerTest {
     }
 
     @Test
-    void postVendorDenied() throws Exception {
+    public void postVendorDenied() throws Exception {
         Vendor vendor = createVendor();
 
         String json = objectMapper().writeValueAsString(vendorMapper.mapToSave(vendor));
@@ -127,7 +122,7 @@ class VendorControllerTest {
     }
 
     @Test
-    void putVendor() throws Exception {
+    public void putVendor() throws Exception {
         Vendor vendor = populateVendor();
 
         var vendorToSave = vendorMapper.mapToSave(vendor);
@@ -154,7 +149,7 @@ class VendorControllerTest {
     }
 
     @Test
-    void putVendorDenied() throws Exception {
+    public void putVendorDenied() throws Exception {
         Vendor vendor = createVendor();
 
         var vendorToSave = vendorMapper.mapToSave(vendor);
@@ -172,7 +167,7 @@ class VendorControllerTest {
     }
 
     @Test
-    void deleteVendor() throws Exception {
+    public void deleteVendor() throws Exception {
         Vendor vendor = populateVendor();
 
         mockMvc
@@ -187,7 +182,7 @@ class VendorControllerTest {
     }
 
     @Test
-    void deleteVendorDenied() throws Exception {
+    public void deleteVendorDenied() throws Exception {
         mockMvc
                 .perform(delete(VENDORS + "/" + 1)
                         .cookie(login("user", "user")))
@@ -196,7 +191,7 @@ class VendorControllerTest {
     }
 
     @Test
-    void putVendorProduct() throws Exception {
+    public void putVendorProduct() throws Exception {
         Product product = populateProduct();
         Vendor vendor = populateVendor();
 
@@ -216,7 +211,7 @@ class VendorControllerTest {
     }
 
     @Test
-    void putVendorProductDenied() throws Exception {
+    public void putVendorProductDenied() throws Exception {
         mockMvc
                 .perform(put(VENDORS + "/" + 1 + "/products/" + 1)
                         .cookie(login("user", "user")))
@@ -225,7 +220,7 @@ class VendorControllerTest {
     }
 
     @Test
-    void deleteVendorProduct() throws Exception {
+    public void deleteVendorProduct() throws Exception {
         Product product = populateProduct();
         Vendor vendor = populateVendor();
         vendor.getProducts().add(product);
@@ -246,7 +241,7 @@ class VendorControllerTest {
     }
 
     @Test
-    void deleteVendorProductDenied() throws Exception {
+    public void deleteVendorProductDenied() throws Exception {
         mockMvc
                 .perform(delete(VENDORS + "/" + 1 + "/products/" + 1)
                         .cookie(login("user", "user")))

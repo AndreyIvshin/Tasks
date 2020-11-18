@@ -1,22 +1,18 @@
 package com.epam.clothshop.api;
 
 import com.epam.clothshop.mapper.CategoryMapper;
-import com.epam.clothshop.mapper.CategoryMapper;
 import com.epam.clothshop.model.Category;
 import com.epam.clothshop.model.Product;
-import com.epam.clothshop.model.Category;
-import com.epam.clothshop.service.CategoryService;
 import com.epam.clothshop.service.CategoryService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import lombok.var;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,8 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-@TestPropertySource(locations = "classpath:application-test.properties")
-class CategoryControllerTest {
+public class CategoryControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -48,7 +43,7 @@ class CategoryControllerTest {
     private CategoryMapper categoryMapper;
 
     @Test
-    void getCategories() throws Exception {
+    public void getCategories() throws Exception {
         List<Category> categories = populateCategories();
 
         var origins = categories.stream().map(categoryMapper::mapLite).collect(Collectors.toList());
@@ -67,7 +62,7 @@ class CategoryControllerTest {
     }
 
     @Test
-    void getCategory() throws Exception {
+    public void getCategory() throws Exception {
         Category category = populateCategory();
 
         var origin = categoryMapper.mapFull(category);
@@ -85,7 +80,7 @@ class CategoryControllerTest {
     }
 
     @Test
-    void postCategory() throws Exception {
+    public void postCategory() throws Exception {
         Category category = createCategory();
 
         String json = objectMapper().writeValueAsString(categoryMapper.mapToSave(category));
@@ -112,7 +107,7 @@ class CategoryControllerTest {
     }
 
     @Test
-    void postCategoryDenied() throws Exception {
+    public void postCategoryDenied() throws Exception {
         Category category = createCategory();
 
         String json = objectMapper().writeValueAsString(categoryMapper.mapToSave(category));
@@ -127,7 +122,7 @@ class CategoryControllerTest {
     }
 
     @Test
-    void putCategory() throws Exception {
+    public void putCategory() throws Exception {
         Category category = populateCategory();
 
         var categoryToSave = categoryMapper.mapToSave(category);
@@ -154,7 +149,7 @@ class CategoryControllerTest {
     }
 
     @Test
-    void putCategoryDenied() throws Exception {
+    public void putCategoryDenied() throws Exception {
         Category category = createCategory();
 
         var categoryToSave = categoryMapper.mapToSave(category);
@@ -172,7 +167,7 @@ class CategoryControllerTest {
     }
 
     @Test
-    void deleteCategory() throws Exception {
+    public void deleteCategory() throws Exception {
         Category category = populateCategory();
 
         mockMvc
@@ -187,7 +182,7 @@ class CategoryControllerTest {
     }
 
     @Test
-    void deleteCategoryDenied() throws Exception {
+    public void deleteCategoryDenied() throws Exception {
         mockMvc
                 .perform(delete(CATEGORIES + "/" + 1)
                         .cookie(login("user", "user")))
@@ -196,7 +191,7 @@ class CategoryControllerTest {
     }
 
     @Test
-    void putCategoryProduct() throws Exception {
+    public void putCategoryProduct() throws Exception {
         Product product = populateProduct();
         Category category = populateCategory();
 
@@ -216,7 +211,7 @@ class CategoryControllerTest {
     }
 
     @Test
-    void putCategoryProductDenied() throws Exception {
+    public void putCategoryProductDenied() throws Exception {
         mockMvc
                 .perform(put(CATEGORIES + "/" + 1 + "/products/" + 1)
                         .cookie(login("user", "user")))
@@ -225,7 +220,7 @@ class CategoryControllerTest {
     }
 
     @Test
-    void deleteCategoryProduct() throws Exception {
+    public void deleteCategoryProduct() throws Exception {
         Product product = populateProduct();
         Category category = populateCategory();
         category.getProducts().add(product);
@@ -246,7 +241,7 @@ class CategoryControllerTest {
     }
 
     @Test
-    void deleteCategoryProductDenied() throws Exception {
+    public void deleteCategoryProductDenied() throws Exception {
         mockMvc
                 .perform(delete(CATEGORIES + "/" + 1 + "/products/" + 1)
                         .cookie(login("user", "user")))

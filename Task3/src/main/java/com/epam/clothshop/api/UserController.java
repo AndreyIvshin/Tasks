@@ -4,6 +4,7 @@ import com.epam.clothshop.mapper.UserMapper;
 import com.epam.clothshop.model.Order;
 import com.epam.clothshop.model.User;
 import com.epam.clothshop.security.Authority;
+import com.epam.clothshop.security.Role;
 import com.epam.clothshop.service.OrderService;
 import com.epam.clothshop.service.UserService;
 import io.swagger.annotations.Api;
@@ -69,7 +70,9 @@ public class UserController {
     @PreAuthorize("hasAuthority('WRITE') or isAnonymous()")
     @Operation(summary = "Create user")
     public ResponseEntity<UserMapper.UserFull> postUser(@RequestBody UserMapper.UserToSave userToSave) {
-        //TODO anonymous shouldn't create account with ADMIN role
+        if (userToSave.getRole().equals(Role.ADMIN) && !hasAuthority(WRITE)) {
+            return ResponseEntity.status(HttpServletResponse.SC_FORBIDDEN).build();
+        }
         User save = userService.save(userMapper.mapToSave(userToSave));
         return ResponseEntity.created(ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(save.getId()).toUri()).body(userMapper.mapFull(save));

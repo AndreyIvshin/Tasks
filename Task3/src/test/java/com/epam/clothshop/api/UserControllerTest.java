@@ -1,23 +1,19 @@
 package com.epam.clothshop.api;
 
 import com.epam.clothshop.mapper.UserMapper;
-import com.epam.clothshop.mapper.UserMapper;
 import com.epam.clothshop.model.Order;
-import com.epam.clothshop.model.Product;
 import com.epam.clothshop.model.User;
 import com.epam.clothshop.security.Role;
 import com.epam.clothshop.service.UserService;
-import com.epam.clothshop.service.UserService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import lombok.var;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,8 +34,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-@TestPropertySource(locations = "classpath:application-test.properties")
-class UserControllerTest {
+public class UserControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -49,7 +44,7 @@ class UserControllerTest {
     private UserMapper userMapper;
 
     @Test
-    void getUsers() throws Exception {
+    public void getUsers() throws Exception {
         List<User> users = userService.findAll();
 
         var origins = users.stream().map(userMapper::mapLite).collect(Collectors.toList());
@@ -69,7 +64,7 @@ class UserControllerTest {
     }
 
     @Test
-    void getUsersDenied() throws Exception {
+    public void getUsersDenied() throws Exception {
         List<User> users = userService.findAll();
 
         var origins = users.stream().map(userMapper::mapLite).collect(Collectors.toList());
@@ -82,7 +77,7 @@ class UserControllerTest {
     }
 
     @Test
-    void getUser() throws Exception {
+    public void getUser() throws Exception {
         User user = userService.findById(1L).get();
 
         var origin = userMapper.mapFull(user);
@@ -100,7 +95,7 @@ class UserControllerTest {
     }
 
     @Test
-    void getUserSameId() throws Exception {
+    public void getUserSameId() throws Exception {
         User user = userService.findById(2L).get();
 
         var origin = userMapper.mapFull(user);
@@ -118,7 +113,7 @@ class UserControllerTest {
     }
 
     @Test
-    void getUserDenied() throws Exception {
+    public void getUserDenied() throws Exception {
         User user = userService.findById(1L).get();
 
         var origin = userMapper.mapFull(user);
@@ -131,7 +126,7 @@ class UserControllerTest {
     }
 
     @Test
-    void postUser() throws Exception {
+    public void postUser() throws Exception {
         User user = createUser();
 
         String json = objectMapper().writeValueAsString(userMapper.mapToSave(user));
@@ -158,7 +153,7 @@ class UserControllerTest {
     }
 
     @Test
-    void postUserUnauthorized() throws Exception {
+    public void postUserUnauthorized() throws Exception {
         User user = createUser();
 
         String json = objectMapper().writeValueAsString(userMapper.mapToSave(user));
@@ -184,7 +179,22 @@ class UserControllerTest {
     }
 
     @Test
-    void postUserDenied() throws Exception {
+    public void postUserUnauthorizedDenied() throws Exception {
+        User user = createUser();
+        user.setRole(Role.ADMIN);
+
+        String json = objectMapper().writeValueAsString(userMapper.mapToSave(user));
+
+        mockMvc
+                .perform(post(USERS)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json))
+                .andDo(print())
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    public void postUserDenied() throws Exception {
         User user = createUser();
 
         String json = objectMapper().writeValueAsString(userMapper.mapToSave(user));
@@ -199,7 +209,7 @@ class UserControllerTest {
     }
 
     @Test
-    void putUser() throws Exception {
+    public void putUser() throws Exception {
         User user = userService.findById(2L).get();
 
         var userToSave = userMapper.mapToSave(user);
@@ -226,7 +236,7 @@ class UserControllerTest {
     }
 
     @Test
-    void putUserSameId() throws Exception {
+    public void putUserSameId() throws Exception {
         User user = userService.findById(2L).get();
 
         var userToSave = userMapper.mapToSave(user);
@@ -253,7 +263,7 @@ class UserControllerTest {
     }
 
     @Test
-    void putUserDenied() throws Exception {
+    public void putUserDenied() throws Exception {
         User user = userService.findById(1L).get();
 
         var userToSave = userMapper.mapToSave(user);
@@ -271,7 +281,7 @@ class UserControllerTest {
     }
 
     @Test
-    void putUserDeniedOnSameIdRoleChange() throws Exception {
+    public void putUserDeniedOnSameIdRoleChange() throws Exception {
         User user = userService.findById(1L).get();
 
         var userToSave = userMapper.mapToSave(user);
@@ -289,7 +299,7 @@ class UserControllerTest {
     }
 
     @Test
-    void deleteUser() throws Exception {
+    public void deleteUser() throws Exception {
         User user = userService.findById(2L).get();
 
         mockMvc
@@ -304,7 +314,7 @@ class UserControllerTest {
     }
 
     @Test
-    void deleteUserDenied() throws Exception {
+    public void deleteUserDenied() throws Exception {
         mockMvc
                 .perform(delete(USERS + "/" + 1)
                         .cookie(login("user", "user")))
@@ -313,7 +323,7 @@ class UserControllerTest {
     }
 
     @Test
-    void putUserOrder() throws Exception {
+    public void putUserOrder() throws Exception {
         Order order = populateOrder();
         User user = userService.findById(2L).get();
 
@@ -333,7 +343,7 @@ class UserControllerTest {
     }
 
     @Test
-    void putUserOrderSameId() throws Exception {
+    public void putUserOrderSameId() throws Exception {
         Order order = populateOrder();
         User user = userService.findById(2L).get();
 
@@ -353,7 +363,7 @@ class UserControllerTest {
     }
 
     @Test
-    void putUserOrderDenied() throws Exception {
+    public void putUserOrderDenied() throws Exception {
         mockMvc
                 .perform(put(USERS + "/" + 1 + "/orders/" + 1)
                         .cookie(login("user", "user")))
@@ -362,7 +372,7 @@ class UserControllerTest {
     }
 
     @Test
-    void deleteUserOrder() throws Exception {
+    public void deleteUserOrder() throws Exception {
         Order order = populateOrder();
         User user = userService.findById(2L).get();
         user.getOrders().add(order);
@@ -383,7 +393,7 @@ class UserControllerTest {
     }
 
     @Test
-    void deleteUserOrderSameId() throws Exception {
+    public void deleteUserOrderSameId() throws Exception {
         Order order = populateOrder();
         User user = userService.findById(2L).get();
         user.getOrders().add(order);
@@ -404,7 +414,7 @@ class UserControllerTest {
     }
 
     @Test
-    void deleteUserOrderDenied() throws Exception {
+    public void deleteUserOrderDenied() throws Exception {
         mockMvc
                 .perform(delete(USERS + "/" + 1 + "/orders/" + 1)
                         .cookie(login("user", "user")))

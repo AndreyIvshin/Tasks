@@ -1,22 +1,18 @@
 package com.epam.clothshop.api;
 
 import com.epam.clothshop.mapper.OrderMapper;
-import com.epam.clothshop.mapper.ProductMapper;
 import com.epam.clothshop.model.Order;
 import com.epam.clothshop.model.Product;
 import com.epam.clothshop.service.OrderService;
-import com.epam.clothshop.service.ProductService;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.var;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,7 +23,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.epam.clothshop.api.TestUtils.*;
-import static java.lang.Thread.sleep;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -38,8 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-@TestPropertySource(locations = "classpath:application-test.properties")
-class OrderControllerTest {
+public class OrderControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -49,7 +43,7 @@ class OrderControllerTest {
     private OrderMapper orderMapper;
 
     @Test
-    void getOrders() throws Exception {
+    public void getOrders() throws Exception {
         List<Order> orders = populateOrders();
 
         var origins = orders.stream().map(orderMapper::mapLite).collect(Collectors.toList());
@@ -68,7 +62,7 @@ class OrderControllerTest {
     }
 
     @Test
-    void getOrder() throws Exception {
+    public void getOrder() throws Exception {
         Order order = populateOrder();
 
         var origin = orderMapper.mapFull(order);
@@ -86,7 +80,7 @@ class OrderControllerTest {
     }
 
     @Test
-    void postOrder() throws Exception {
+    public void postOrder() throws Exception {
         Order order = createOrder();
 
         String json = objectMapper().writeValueAsString(orderMapper.mapToSave(order));
@@ -113,7 +107,7 @@ class OrderControllerTest {
     }
 
     @Test
-    void putOrder() throws Exception {
+    public void putOrder() throws Exception {
         Order order = populateOrder();
 
         var orderToSave = orderMapper.mapToSave(order);
@@ -140,7 +134,7 @@ class OrderControllerTest {
     }
 
     @Test
-    void deleteOrder() throws Exception {
+    public void deleteOrder() throws Exception {
         Order order = populateOrder();
 
         mockMvc
@@ -155,7 +149,7 @@ class OrderControllerTest {
     }
 
     @Test
-    void putOrderProduct() throws Exception {
+    public void putOrderProduct() throws Exception {
         Product product = populateProduct();
         Order order = populateOrder();
 
@@ -175,7 +169,7 @@ class OrderControllerTest {
     }
 
     @Test
-    void deleteOrderProduct() throws Exception {
+    public void deleteOrderProduct() throws Exception {
         Product product = populateProduct();
         Order order = populateOrder();
         order.getProducts().add(product);
