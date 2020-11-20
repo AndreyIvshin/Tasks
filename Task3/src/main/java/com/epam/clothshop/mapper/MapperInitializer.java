@@ -92,7 +92,15 @@ public class MapperInitializer implements BeanFactoryPostProcessor, ApplicationC
             Method getter = Arrays.stream(entity.getClass().getMethods()).filter(
                     method -> method.getName().equals(getterName)).findAny().orElseThrow(NoSuchMethodException::new);
             if (!field.getType().equals(List.class)) {
-                setObject(setter, transfer, getter, entity);
+                if (field.getType().getDeclaringClass() != null && field.getType().getDeclaringClass().isAnnotationPresent(Mapper.class)) {
+                    Field entityField = Arrays.stream(entity.getClass().getDeclaredFields()).filter(ef -> ef.getName().equals(field.getName()))
+                            .findAny().orElseThrow(NoSuchFieldException::new);
+                    Class returnClass = field.getType();
+                    Class paramClass = entityField.getType();
+                    setEntity(setter, transfer, getter, entity, returnClass, paramClass, applicationContext.getBean(returnClass.getDeclaringClass()));
+                } else {
+                    setObject(setter, transfer, getter, entity);
+                }
             } else {
                 Field entityField = Arrays.stream(entity.getClass().getDeclaredFields()).filter(ef -> ef.getName().equals(field.getName()))
                         .findAny().orElseThrow(NoSuchFieldException::new);
@@ -118,7 +126,15 @@ public class MapperInitializer implements BeanFactoryPostProcessor, ApplicationC
             Method getter = Arrays.stream(transfer.getClass().getMethods()).filter(
                     method -> method.getName().equals(getterName)).findAny().orElseThrow(NoSuchMethodException::new);
             if (!field.getType().equals(List.class)) {
-                setObject(setter, entity, getter, transfer);
+                if (field.getType().getDeclaringClass() != null && field.getType().getDeclaringClass().isAnnotationPresent(Mapper.class)) {
+                    Field entityField = Arrays.stream(entity.getClass().getDeclaredFields()).filter(ef -> ef.getName().equals(field.getName()))
+                            .findAny().orElseThrow(NoSuchFieldException::new);
+                    Class returnClass = entityField.getType();
+                    Class paramClass = field.getType();
+                    setEntity(setter, entity, getter, transfer, returnClass, paramClass, applicationContext.getBean(paramClass.getDeclaringClass()));
+                } else {
+                    setObject(setter, entity, getter, transfer);
+                }
             } else {
                 Field entityField = Arrays.stream(entity.getClass().getDeclaredFields()).filter(ef -> ef.getName().equals(field.getName()))
                         .findAny().orElseThrow(NoSuchFieldException::new);
@@ -139,6 +155,17 @@ public class MapperInitializer implements BeanFactoryPostProcessor, ApplicationC
             setter.invoke(setterObject, getObjectToGet(getter, getterObject), applicationContext);
         } else {
             setter.invoke(setterObject, getObjectToGet(getter, getterObject));
+        }
+    }
+
+    private void setEntity(Method setter, Object setterObject, Method getter, Object getterObject, Class returnClass, Class paramClass, Object mapper) throws Throwable {
+        Method map = Arrays.stream(mapper.getClass().getMethods())
+                .filter(method -> method.getReturnType().equals(returnClass) && method.getParameterTypes()[0].equals(paramClass))
+                .findAny().orElseThrow(NoSuchMethodError::new);
+        if (setter.getParameterTypes().length > 1) {
+            setter.invoke(setterObject, map.invoke(getObjectToGet(getter, getterObject)), applicationContext);
+        } else {
+            setter.invoke(setterObject, map.invoke(mapper, getObjectToGet(getter, getterObject)));
         }
     }
 
