@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<datasources>
+    <datasource jndi-name="java:/PostgresDS" pool-name="DS">
+        <connection-url>jdbc:postgresql://192.168.99.100:5432/postgres</connection-url>
+        <driver-class>org.postgresql.Driver</driver-class>
+        <driver>postgresql-42.2.18.jre6.jar</driver>
+        <security>
+            <user-name>root</user-name>
+            <password>1234</password>
+        </security>
+        <validation>
+            <valid-connection-checker class-name="org.jboss.jca.adapters.jdbc.extensions.postgres.PostgreSQLValidConnectionChecker"/>
+            <background-validation>true</background-validation>
+            <exception-sorter class-name="org.jboss.jca.adapters.jdbc.extensions.postgres.PostgreSQLExceptionSorter"/>
+        </validation>
+    </datasource>
+</datasources>
+

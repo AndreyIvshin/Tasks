@@ -2,28 +2,47 @@ version: "3"
 
 services:
 
-#  task1-tomcat:
+#  tomcat1:
 #    image: tomcat:jdk8
 #    ports:
 #      - 8081:8080
 #    volumes:
-#      - ./Task1/target/ROOT:/usr/local/tomcat/webapps/ROOT
+#      - ./Task1/target/ROOT.war:/usr/local/tomcat/webapps/ROOT.war
 #    depends_on:
 #      - oracle
 
-#  task2-tomcat:
+#  tomcat2:
 #    image: tomcat:jdk8
 #    ports:
 #      - 8082:8080
 #    volumes:
-#      - ./Task2/target/ROOT:/usr/local/tomcat/webapps/ROOT
+#      - ./Task2/target/ROOT.war:/usr/local/tomcat/webapps/ROOT.war
 #    depends_on:
 #      - oracle
 
-#  task3-openjdk:
+#  openjdk:
 #    build: ./Task3/
 #    ports:
 #      -  8083:8080
+#    depends_on:
+#      - postgres
+
+#  angular:
+#    image: nginx:1.19
+#    ports:
+#      - 8084:80
+#    volumes:
+#      - ./Task4/frontend/dist/frontend:/usr/share/nginx/html
+
+#  wildfly:
+#    image: jboss/wildfly:21.0.0.Final
+#    ports:
+#      - 8085:8080
+#      - 9990:9990
+#    volumes:
+#      - ./Task4/backend/postgres-ds.xml:/opt/jboss/wildfly/standalone/deployments/postgres-ds.xml
+#      - ./Task4/backend/postgresql-42.2.18.jre6.jar:/opt/jboss/wildfly/standalone/deployments/postgresql-42.2.18.jre6.jar
+#      - ./Task4/backend/target/ROOT.war:/opt/jboss/wildfly/standalone/deployments/ROOT.war
 #    depends_on:
 #      - postgres
 
