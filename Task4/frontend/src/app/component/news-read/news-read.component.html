@@ -1,0 +1,22 @@
+<mat-card class="card">
+  <mat-card-title>{{news.title}}</mat-card-title>
+  <mat-card-content>
+    <br>
+    <span class="italic">{{news.brief}}</span>
+    <br>
+    <br>
+    <span>{{news.content}}</span>
+  </mat-card-content>
+  <mat-card-subtitle>
+    <span>{{news.date | date}}</span>
+  </mat-card-subtitle>
+  <div class="write-delete" *ngIf="securityService.isAdmin()">
+    <button mat-fab routerLink="/news-write/{{news.id}}">
+      <mat-icon>edit</mat-icon>
+    </button>
+    <span class="spacer"></span>
+    <button mat-fab color="warn" (click)="delete()">
+      <mat-icon>delete_outline</mat-icon>
+    </button>
+  </div>
+</mat-card>

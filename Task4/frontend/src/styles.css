@@ -16,9 +16,8 @@ app-root {
 }
 
 app-content {
-  flex: 1 1 auto;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  flex: 1 1 auto;
   align-items: center;
+  justify-content: center;
 }

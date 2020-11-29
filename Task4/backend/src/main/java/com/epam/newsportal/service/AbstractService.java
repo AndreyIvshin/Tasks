@@ -20,8 +20,12 @@ public abstract class AbstractService<Entity extends AbstractEntity, Id, Reposit
         return repository.find(id);
     }
 
-    public Entity save(Entity entity) {
-        return repository.save(entity);
+    public Entity create(Entity entity) {
+        return repository.create(entity);
+    }
+
+    public Entity update(Entity entity) {
+        return repository.update(entity);
     }
 
     public void delete(Id id) {

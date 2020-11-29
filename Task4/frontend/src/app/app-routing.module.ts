@@ -1,20 +1,22 @@
 import {NgModule} from '@angular/core';
-import {Routes, RouterModule} from '@angular/router';
-import {WelcomeComponent} from './pages/welcome/welcome.component';
-import {SignInComponent} from './pages/sign-in/sign-in.component';
-import {SignUpComponent} from './pages/sign-up/sign-up.component';
-import {NewsListComponent} from './pages/news-list/news-list.component';
-import {NotFoundComponent} from './common/not-found/not-found.component';
-import {NewsReadComponent} from './pages/news-read/news-read.component';
-import {NewsEditComponent} from './pages/news-edit/news-edit.component';
+import {RouterModule, Routes} from '@angular/router';
+import {WelcomeComponent} from './component/welcome/welcome.component';
+import {NotFoundComponent} from './component/not-found/not-found.component';
+import {SignInComponent} from './component/sign-in/sign-in.component';
+import {SignUpComponent} from './component/sign-up/sign-up.component';
+import {NewsListComponent} from './component/news-list/news-list.component';
+import {NewsReadComponent} from './component/news-read/news-read.component';
+import {NewsWriteComponent} from './component/news-write/news-write.component';
+import {NewsAddComponent} from './component/news-add/news-add.component';
 
 const routes: Routes = [
   {path: '', component: WelcomeComponent},
   {path: 'sign-in', component: SignInComponent},
   {path: 'sign-up', component: SignUpComponent},
   {path: 'news-list', component: NewsListComponent},
-  {path: 'news-read', component: NewsReadComponent},
-  {path: 'news-edit', component: NewsEditComponent},
+  {path: 'news-add', component: NewsAddComponent},
+  {path: 'news-read/:id', component: NewsReadComponent},
+  {path: 'news-write/:id', component: NewsWriteComponent},
   {path: '**', component: NotFoundComponent}
 ];
 

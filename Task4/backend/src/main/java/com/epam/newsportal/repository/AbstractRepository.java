@@ -36,11 +36,16 @@ public abstract class AbstractRepository<Entity extends AbstractEntity, Id> {
         return Optional.ofNullable(entityManager.find(entityClass, id));
     }
 
-    public Entity save(Entity entity) {
+    public Entity create(Entity entity) {
+        entityManager.persist(entity);
+        return entity;
+    }
+
+    public Entity update(Entity entity) {
         return entityManager.merge(entity);
     }
 
     public void delete(Id id) {
-        entityManager.remove(find(id));
+        entityManager.remove(find(id).get());
     }
 }

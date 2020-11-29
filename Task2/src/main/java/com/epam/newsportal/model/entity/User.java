@@ -19,7 +19,7 @@ public class User extends AbstractEntity implements UserDetails {
     @Column(name = "user_id")
     private Long id;
 
-    @Size(min = 2, max = 40)
+    @Size(min = 4, max = 40)
     @Column(name = "user_username")
     private String username;
 

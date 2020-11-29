@@ -1,0 +1,19 @@
+<div class="add" *ngIf="securityService.isAdmin()">
+  <button mat-fab routerLink="/news-add">
+    <mat-icon>post_add</mat-icon>
+  </button>
+</div>
+<div class="cards">
+  <mat-card class="card" *ngFor="let news of allNews">
+    <mat-card-title>{{news.title}}</mat-card-title>
+    <mat-card-content>{{news.brief}}</mat-card-content>
+    <mat-card-subtitle>
+      <span>{{news.date | date}}</span>
+    </mat-card-subtitle>
+    <div class="fab">
+      <button mat-fab color="primary" routerLink="/news-read/{{news.id}}">
+        <mat-icon>menu_book</mat-icon>
+      </button>
+    </div>
+  </mat-card>
+</div>

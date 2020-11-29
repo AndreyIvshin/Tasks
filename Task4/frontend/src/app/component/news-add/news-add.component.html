@@ -1,0 +1,37 @@
+<mat-card>
+  <mat-card-title>Add News</mat-card-title>
+  <mat-card-content>
+    <form #form="ngForm">
+      <br>
+      <mat-form-field class="width">
+        <mat-label>Title</mat-label>
+        <textarea matInput name="title" #title="ngModel" [(ngModel)]="news.title" required minlength="2" maxlength="100"></textarea>
+        <mat-error *ngIf="(title.dirty || title.touched) && title.errors?.required">Title must not be empty</mat-error>
+        <mat-error *ngIf="(title.dirty || title.touched) && title.hasError('minlength')">Length must less than 2</mat-error>
+        <mat-error *ngIf="(title.dirty || title.touched) && title.hasError('maxlength')">Length must more than 100
+        </mat-error>
+      </mat-form-field>
+      <br>
+      <br>
+      <mat-form-field class="width">
+        <mat-label>Brief</mat-label>
+        <textarea matInput name="brief" [(ngModel)]="news.brief" required minlength="2" maxlength="500"></textarea>
+        <mat-error *ngIf="(title.dirty || title.touched) && title.errors?.required">Brief must not be empty</mat-error>
+        <mat-error *ngIf="(title.dirty || title.touched) && title.hasError('minlength')">Length must less than 2</mat-error>
+        <mat-error *ngIf="(title.dirty || title.touched) && title.hasError('maxlength')">Length must more than 500</mat-error>
+      </mat-form-field>
+      <br>
+      <br>
+      <mat-form-field class="width">
+        <mat-label>Content</mat-label>
+        <textarea matInput name="content" [(ngModel)]="news.content" required minlength="2" maxlength="5000"></textarea>
+        <mat-error *ngIf="(title.dirty || title.touched) && title.errors?.required">Content must not be empty</mat-error>
+        <mat-error *ngIf="(title.dirty || title.touched) && title.hasError('minlength')">Length must less than 2</mat-error>
+        <mat-error *ngIf="(title.dirty || title.touched) && title.hasError('maxlength')">Length must more than 5000</mat-error>
+      </mat-form-field>
+      <br>
+      <br>
+      <button mat-raised-button color="primary" [disabled]="!form.valid" (click)="add()">Write</button>
+    </form>
+  </mat-card-content>
+</mat-card>

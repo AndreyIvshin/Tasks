@@ -9,6 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @Controller
 @Transactional
 public class NewsController {
@@ -35,7 +37,7 @@ public class NewsController {
     }
 
     @PostMapping("/news/add/process")
-    public String addNewsProcess(@ModelAttribute News news, BindingResult bindingResult, Model model) {
+    public String addNewsProcess(@ModelAttribute @Valid News news, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("news", news);
             return "newsAdd";

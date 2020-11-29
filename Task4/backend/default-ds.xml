@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<datasources>
+    <datasource jndi-name="java:/DefaultDS" pool-name="DS">
+        <connection-url>jdbc:oracle:thin:@192.168.99.100:1521:oracle</connection-url>
+        <driver-class>oracle.jdbc.driver.OracleDriver</driver-class>
+        <driver>ojdbc8.jar</driver>
+        <security>
+            <user-name>root</user-name>
+            <password>1234</password>
+        </security>
+    </datasource>
+</datasources>
+
