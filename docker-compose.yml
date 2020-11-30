@@ -2,12 +2,12 @@ version: "3"
 
 services:
 
-#  tomcat1:
-#    image: tomcat:jdk8
-#    ports:
-#      - 8081:8080
-#    volumes:
-#      - ./Task1/target/ROOT.war:/usr/local/tomcat/webapps/ROOT.war
+  tomcat1:
+    image: tomcat:jdk8
+    ports:
+      - 8081:8080
+    volumes:
+      - ./Task1/target/ROOT.war:/usr/local/tomcat/webapps/ROOT.war
 
   tomcat2:
     image: tomcat:jdk8
@@ -16,10 +16,10 @@ services:
     volumes:
       - ./Task2/target/ROOT.war:/usr/local/tomcat/webapps/ROOT.war
 
-#  openjdk:
-#    build: ./Task3/
-#    ports:
-#      -  8083:8080
+  openjdk:
+    build: ./Task3/
+    ports:
+      -  8083:8080
 
   angular:
     image: nginx:1.19
@@ -38,14 +38,14 @@ services:
       - ./Task4/backend/ojdbc8.jar:/opt/jboss/wildfly/standalone/deployments/ojdbc8.jar
       - ./Task4/backend/target/ROOT.war:/opt/jboss/wildfly/standalone/deployments/ROOT.war
 
-#  postgres:
-#    image: postgres:13
-#    environment:
-#      - POSTGRES_USER=root
-#      - POSTGRES_PASSWORD=1234
-#      - POSTGRES_DB=postgres
-#    ports:
-#      - 5432:5432
+  postgres:
+    image: postgres:13
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=1234
+      - POSTGRES_DB=postgres
+    ports:
+      - 5432:5432
 
   oracle:
     image: store/oracle/database-enterprise:12.2.0.1

@@ -9,8 +9,8 @@
         <mat-label>Username</mat-label>
         <input matInput type="text" name="username" #u="ngModel" [(ngModel)]="user.username" required minlength="4" maxlength="40">
         <mat-error *ngIf="(u.dirty || u.touched) && u.errors?.required">Username must not be empty</mat-error>
-        <mat-error *ngIf="(u.dirty || u.touched) && u.hasError('minlength')">Length must be less than 4</mat-error>
-        <mat-error *ngIf="(u.dirty || u.touched) && u.hasError('maxlength')">Length must be more than 40</mat-error>
+        <mat-error *ngIf="(u.dirty || u.touched) && u.hasError('minlength')">Length must not be less than 4</mat-error>
+        <mat-error *ngIf="(u.dirty || u.touched) && u.hasError('maxlength')">Length must not be more than 40</mat-error>
       </mat-form-field>
       <br>
       <br>
@@ -19,8 +19,8 @@
         <input matInput type="password" name="password" #p="ngModel" [(ngModel)]="user.password"
                required minlength="4" maxlength="40" (change)="checkPasswords()" (blur)="checkPasswords()">
         <mat-error *ngIf="(p.dirty || p.touched) && p.errors?.required">Password must not be empty</mat-error>
-        <mat-error *ngIf="(p.dirty || p.touched) && p.hasError('minlength')">Length must be less than 4</mat-error>
-        <mat-error *ngIf="(p.dirty || p.touched) && p.hasError('maxlength')">Length must be more than 40</mat-error>
+        <mat-error *ngIf="(p.dirty || p.touched) && p.hasError('minlength')">Length must not be less than 4</mat-error>
+        <mat-error *ngIf="(p.dirty || p.touched) && p.hasError('maxlength')">Length must not be more than 40</mat-error>
       </mat-form-field>
       <br>
       <br>
@@ -29,8 +29,8 @@
         <input matInput type="password" name="passwordRepeat" #pr="ngModel" [(ngModel)]="user.passwordRepeat"
                required minlength="4" maxlength="40" (change)="checkPasswords()" (blur)="checkPasswords()">
         <mat-error *ngIf="(pr.dirty || pr.touched) && pr.errors?.required">Password must not be empty</mat-error>
-        <mat-error *ngIf="(pr.dirty || pr.touched) && pr.hasError('minlength')">Length must be less than 4</mat-error>
-        <mat-error *ngIf="(pr.dirty || pr.touched) && pr.hasError('maxlength')">Length must be more than 40</mat-error>
+        <mat-error *ngIf="(pr.dirty || pr.touched) && pr.hasError('minlength')">Length must not be less than 4</mat-error>
+        <mat-error *ngIf="(pr.dirty || pr.touched) && pr.hasError('maxlength')">Length must not be more than 40</mat-error>
       </mat-form-field>
       <br>
       <br>

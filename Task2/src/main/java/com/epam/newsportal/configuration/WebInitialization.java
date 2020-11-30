@@ -4,6 +4,9 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 import javax.servlet.Filter;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRegistration;
 
 public class WebInitialization extends AbstractAnnotationConfigDispatcherServletInitializer {
 
@@ -26,6 +29,4 @@ public class WebInitialization extends AbstractAnnotationConfigDispatcherServlet
     protected Filter[] getServletFilters() {
         return new Filter[]{new CharacterEncodingFilter("UTF-8", true)};
     }
-
-
 }

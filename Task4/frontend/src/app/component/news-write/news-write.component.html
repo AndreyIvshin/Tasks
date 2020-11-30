@@ -7,8 +7,8 @@
         <mat-label>Title</mat-label>
         <textarea matInput name="title" #title="ngModel" [(ngModel)]="news.title" required minlength="2" maxlength="100"></textarea>
         <mat-error *ngIf="(title.dirty || title.touched) && title.errors?.required">Title must not be empty</mat-error>
-        <mat-error *ngIf="(title.dirty || title.touched) && title.hasError('minlength')">Length must be less than 2</mat-error>
-        <mat-error *ngIf="(title.dirty || title.touched) && title.hasError('maxlength')">Length must be more than 100
+        <mat-error *ngIf="(title.dirty || title.touched) && title.hasError('minlength')">Length must not be less than 2</mat-error>
+        <mat-error *ngIf="(title.dirty || title.touched) && title.hasError('maxlength')">Length must not be more than 100
         </mat-error>
       </mat-form-field>
       <br>
@@ -17,8 +17,8 @@
         <mat-label>Brief</mat-label>
         <textarea matInput name="brief" [(ngModel)]="news.brief" required minlength="2" maxlength="500"></textarea>
         <mat-error *ngIf="(title.dirty || title.touched) && title.errors?.required">Brief must not be empty</mat-error>
-        <mat-error *ngIf="(title.dirty || title.touched) && title.hasError('minlength')">Length must be less than 2</mat-error>
-        <mat-error *ngIf="(title.dirty || title.touched) && title.hasError('maxlength')">Length must be more than 500</mat-error>
+        <mat-error *ngIf="(title.dirty || title.touched) && title.hasError('minlength')">Length must not be less than 2</mat-error>
+        <mat-error *ngIf="(title.dirty || title.touched) && title.hasError('maxlength')">Length must not be more than 500</mat-error>
       </mat-form-field>
       <br>
       <br>
@@ -26,8 +26,8 @@
         <mat-label>Content</mat-label>
         <textarea matInput name="content" [(ngModel)]="news.content" required minlength="2" maxlength="5000"></textarea>
         <mat-error *ngIf="(title.dirty || title.touched) && title.errors?.required">Content must not be empty</mat-error>
-        <mat-error *ngIf="(title.dirty || title.touched) && title.hasError('minlength')">Length must be less than 2</mat-error>
-        <mat-error *ngIf="(title.dirty || title.touched) && title.hasError('maxlength')">Length must be more than 5000</mat-error>
+        <mat-error *ngIf="(title.dirty || title.touched) && title.hasError('minlength')">Length must not be less than 2</mat-error>
+        <mat-error *ngIf="(title.dirty || title.touched) && title.hasError('maxlength')">Length must not be more than 5000</mat-error>
       </mat-form-field>
       <br>
       <br>
