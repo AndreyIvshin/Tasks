@@ -2,7 +2,6 @@ package com.epam.newsportal.validation;
 
 import com.epam.newsportal.mapper.UserMapper;
 
-import javax.inject.Named;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 

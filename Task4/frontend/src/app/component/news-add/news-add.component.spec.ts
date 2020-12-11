@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { NewsAddComponent } from './news-add.component';
+import {NewsAddComponent} from './news-add.component';
 
 describe('NewsAddComponent', () => {
   let component: NewsAddComponent;

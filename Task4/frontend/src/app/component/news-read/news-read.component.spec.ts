@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { NewsReadComponent } from './news-read.component';
+import {NewsReadComponent} from './news-read.component';
 
 describe('NewsReadComponent', () => {
   let component: NewsReadComponent;

@@ -6,18 +6,13 @@ import com.epam.newsportal.service.NewsService;
 
 import javax.inject.Inject;
 import javax.transaction.Transactional;
-import javax.validation.ConstraintViolation;
-import javax.validation.Valid;
-import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
-import java.net.URI;
 import java.time.Instant;
 import java.util.Date;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Transactional

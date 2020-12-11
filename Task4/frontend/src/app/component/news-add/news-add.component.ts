@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {NewsToSave} from '../../model/news-to-save';
-import {ActivatedRoute, ParamMap, Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {NewsService} from '../../service/news.service';
 
 @Component({

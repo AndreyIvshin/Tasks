@@ -1,4 +1,4 @@
-import { NewsToSave } from './news-to-save';
+import {NewsToSave} from './news-to-save';
 
 describe('NewsToSave', () => {
   it('should create an instance', () => {

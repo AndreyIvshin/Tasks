@@ -2,60 +2,60 @@ version: "3"
 
 services:
 
-  tomcat1:
-    image: tomcat:jdk8
-    ports:
-      - 8081:8080
-    volumes:
-      - ./Task1/target/ROOT.war:/usr/local/tomcat/webapps/ROOT.war
-
-  tomcat2:
-    image: tomcat:jdk8
-    ports:
-      - 8082:8080
-    volumes:
-      - ./Task2/target/ROOT.war:/usr/local/tomcat/webapps/ROOT.war
-
-  openjdk:
-    build: ./Task3/
-    ports:
-      -  8083:8080
-
+#  tomcat1:
+#    image: tomcat:jdk8
+#    ports:
+#      - 8081:8080
+#    volumes:
+#      - ./Task1/target/ROOT.war:/usr/local/tomcat/webapps/ROOT.war
+#
+#  tomcat2:
+#    image: tomcat:jdk8
+#    ports:
+#      - 8082:8080
+#    volumes:
+#      - ./Task2/target/ROOT.war:/usr/local/tomcat/webapps/ROOT.war
+#
+#  spring:
+#    build: ./Task3/
+#    ports:
+#      -  8083:8080
+#
   angular:
     image: nginx:1.19
     ports:
       - 8084:80
     volumes:
       - ./Task4/frontend/dist/frontend:/usr/share/nginx/html
-
-  wildfly:
-    image: jboss/wildfly:21.0.0.Final
-    ports:
-      - 8085:8080
-      - 9990:9990
-    volumes:
-      - ./Task4/backend/default-ds.xml:/opt/jboss/wildfly/standalone/deployments/default-ds.xml
-      - ./Task4/backend/ojdbc8.jar:/opt/jboss/wildfly/standalone/deployments/ojdbc8.jar
-      - ./Task4/backend/target/ROOT.war:/opt/jboss/wildfly/standalone/deployments/ROOT.war
-
-  postgres:
-    image: postgres:13
-    environment:
-      - POSTGRES_USER=root
-      - POSTGRES_PASSWORD=1234
-      - POSTGRES_DB=postgres
-    ports:
-      - 5432:5432
-
-  oracle:
-    image: store/oracle/database-enterprise:12.2.0.1
-    ports:
-      - 1521:1521
-      - 5500:5500
-    environment:
-      - DB_SID=oracle
-    volumes:
-      - oracle:/ORCL
-
-volumes:
-  oracle: {}
+#
+#  wildfly:
+#    image: jboss/wildfly:21.0.0.Final
+#    ports:
+#      - 8085:8080
+#      - 9990:9990
+#    volumes:
+#      - ./Task4/backend/default-ds.xml:/opt/jboss/wildfly/standalone/deployments/default-ds.xml
+#      - ./Task4/backend/ojdbc8.jar:/opt/jboss/wildfly/standalone/deployments/ojdbc8.jar
+#      - ./Task4/backend/target/ROOT.war:/opt/jboss/wildfly/standalone/deployments/ROOT.war
+#
+#  postgres:
+#    image: postgres:13
+#    environment:
+#      - POSTGRES_USER=root
+#      - POSTGRES_PASSWORD=1234
+#      - POSTGRES_DB=postgres
+#    ports:
+#      - 5432:5432
+#
+#  oracle:
+#    image: store/oracle/database-enterprise:12.2.0.1
+#    ports:
+#      - 1521:1521
+#      - 5500:5500
+#    environment:
+#      - DB_SID=oracle
+#    volumes:
+#      - oracle:/ORCL
+#
+#volumes:
+#  oracle: {}
