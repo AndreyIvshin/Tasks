@@ -21,12 +21,12 @@ services:
 #    ports:
 #      -  8083:8080
 #
-  angular:
-    image: nginx:1.19
-    ports:
-      - 8084:80
-    volumes:
-      - ./Task4/frontend/dist/frontend:/usr/share/nginx/html
+#  angular:
+#    image: nginx:1.19
+#    ports:
+#      - 8084:80
+#    volumes:
+#      - ./Task4/frontend/dist/frontend:/usr/share/nginx/html
 #
 #  wildfly:
 #    image: jboss/wildfly:21.0.0.Final

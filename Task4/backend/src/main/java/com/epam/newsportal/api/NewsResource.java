@@ -6,6 +6,7 @@ import com.epam.newsportal.service.NewsService;
 
 import javax.inject.Inject;
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 import javax.validation.Validator;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -42,7 +43,7 @@ public class NewsResource {
     }
 
     @POST
-    public Response postNews(NewsMapper.NewsToSave newsToSave) {
+    public Response postNews(@Valid NewsMapper.NewsToSave newsToSave) {
         News news = newsMapper.mapToSave(newsToSave);
         news.setDate(Date.from(Instant.now()));
         if (!validator.validate(news).isEmpty()) {
@@ -54,7 +55,7 @@ public class NewsResource {
 
     @PUT
     @Path("{id}")
-    public Response putNews(@PathParam("id") Long id, NewsMapper.NewsToSave newsToSave) {
+    public Response putNews(@PathParam("id") Long id, @Valid NewsMapper.NewsToSave newsToSave) {
         return newsService.find(id)
                 .map(oldNews -> {
                     News newNews = newsMapper.mapToSave(newsToSave);

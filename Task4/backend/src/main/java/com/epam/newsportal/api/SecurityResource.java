@@ -9,6 +9,7 @@ import org.mindrot.jbcrypt.BCrypt;
 
 import javax.inject.Inject;
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 import javax.validation.Validator;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -34,7 +35,7 @@ public class SecurityResource {
 
     @POST
     @Path("auth")
-    public Response auth(UserMapper.UserAuth userAuth) {
+    public Response auth(@Valid UserMapper.UserAuth userAuth) {
         if (!validator.validate(userAuth).isEmpty()) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
@@ -50,7 +51,7 @@ public class SecurityResource {
 
     @POST
     @Path("reg")
-    public Response reg(UserMapper.UserReg userReg) {
+    public Response reg(@Valid UserMapper.UserReg userReg) {
         if (!validator.validate(userReg).isEmpty() || userService.findUserByUsername(userReg.getUsername()).isPresent()) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
