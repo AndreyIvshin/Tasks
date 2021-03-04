@@ -7,7 +7,7 @@ health=$(docker inspect --format '{{json .State.Health.Status}}' oracle)
 
 starting='"starting"'
 
-while [ $health == $starting ]; do
+while [ "$health" == "$starting" ]; do
     echo waiting for oracle database
     sleep 10
     health=$(docker inspect --format '{{json .State.Health.Status}}' oracle)
