@@ -17,6 +17,4 @@ docker rm wildfly -f
 
 docker rm angular -f
 
-echo press enter to exit
-read
 

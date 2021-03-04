@@ -11,7 +11,4 @@ docker pull openjdk:8
 docker pull jboss/wildfly:21.0.0.Final
 docker pull nginx:1.19
 
-#end
-echo press enter to exit
-read
 

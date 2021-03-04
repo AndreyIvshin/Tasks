@@ -1,0 +1,8 @@
+<mat-toolbar color="primary">
+  <button mat-button routerLink="/">News Portal</button>
+  <button mat-button routerLink="/news-list" *ngIf="isAuthorized()">News</button>
+  <span class="spacer"></span>
+  <button mat-button routerLink="/sign-in" *ngIf="!isAuthorized()">Sign In</button>
+  <button mat-button routerLink="/sign-up" *ngIf="!isAuthorized()">Sign Up</button>
+  <button mat-button *ngIf="isAuthorized()" (click)="signOut()">Sign Out</button>
+</mat-toolbar>

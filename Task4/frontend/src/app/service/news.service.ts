@@ -12,7 +12,7 @@ import {Router} from '@angular/router';
 })
 export class NewsService {
 
-  private url = 'http://192.168.99.100:8085/api/news';
+  private url = 'http://192.168.1.107:8085/api/news';
 
   constructor(private http: HttpClient, private router: Router) {
   }

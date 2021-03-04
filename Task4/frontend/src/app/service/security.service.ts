@@ -18,7 +18,7 @@ export class SecurityService {
 
   private static router: Router;
 
-  private url = 'http://192.168.99.100:8085/api';
+  private url = 'http://192.168.1.107:8085/api';
   private timeout: any;
 
   login(resp: HttpResponse<any>): void {

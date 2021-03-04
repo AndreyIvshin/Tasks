@@ -7,7 +7,7 @@ health=$(docker inspect --format '{{json .State.Health.Status}}' oracle)
 
 starting='"starting"'
 
-while [ $health == $starting ]; do
+while [ "$health" = "$starting" ]; do
     echo waiting for oracle database
     sleep 10
     health=$(docker inspect --format '{{json .State.Health.Status}}' oracle)
@@ -43,14 +43,11 @@ docker cp Task4/backend/default-ds.xml wildfly:/opt/jboss/wildfly/standalone/dep
 docker cp Task4/backend/target/ROOT.war wildfly:/opt/jboss/wildfly/standalone/deployments/ROOT.war
 
 #angular
-pushd Task4/frontend
+cd Task4/frontend || exit
 npm install
 ng build --prod
-popd
+cd ../.. || exit
 docker run --name angular -d -p 8084:80 nginx:1.19
 docker cp -a Task4/frontend/dist/frontend/. angular:/usr/share/nginx/html
 
-#end
-echo press enter to exit
-read
 
