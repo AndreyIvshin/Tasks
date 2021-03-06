@@ -6,8 +6,9 @@ docker run --name oracle -d -p 1521:1521 -p 5500:5500 -e DB_SID=oracle -v oracle
 health=$(docker inspect --format '{{json .State.Health.Status}}' oracle)
 
 starting='"starting"'
+unhealthy='"unhealthy"'
 
-while [ "$health" = "$starting" ]; do
+while [ "$health" = "$starting" ] || [ "$health" = "$unhealthy" ]; do
     echo waiting for oracle database
     sleep 10
     health=$(docker inspect --format '{{json .State.Health.Status}}' oracle)
