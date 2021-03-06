@@ -13,7 +13,7 @@ import org.springframework.validation.Validator;
 @Transactional
 public class PasswordLengthValidator implements Validator {
 
-    private static final String MESSAGE = "validation.password.repeat";
+    private static final String MESSAGE = "validation.password.length";
     private static final String PASSWORD = "password";
     private static final String PASSWORD_REPEAT = "passwordRepeat";
 
